@@ -1,35 +1,61 @@
+<div align="center">
+
 # dsh-qms-capa
 
-> 🧊 **FROZEN — 2026-10-31. No new features.** This public/synthetic S1 demo is not GA; it stays installable and only genuine breakage is fixed.
+[![npm](https://img.shields.io/npm/v/dsh-qms-capa)](https://www.npmjs.com/package/dsh-qms-capa)
+[![CI](https://github.com/PerryLink/dsh-qms-capa/actions/workflows/ci.yml/badge.svg)](https://github.com/PerryLink/dsh-qms-capa/actions)
+[![License](https://img.shields.io/badge/license-Apache--2.0-blue)](LICENSE)
+[![dsh-plugin](https://img.shields.io/badge/dsh--plugin-%E2%9C%93-green)](https://github.com/topics/dsh-plugin)
+[![docs](https://img.shields.io/badge/docs-domain%20index-0b5fff)](https://perrylink.github.io/dsh-plugins/)
+
+**QMS NCR ingest, batch alias resolution, impact evaluation, CAPA and 8D state.**
+
+> **Status: alpha / public-synthetic / partial / not counted / not GA.** No customer evidence, customer data, or production-readiness claim.
+
+> 🧊 **FROZEN — 2026-10-31. No new features.** Installable; only genuine breakage is fixed.
 
 ## Maintenance status: 🧊 FROZEN
 
-Frozen on 2026-10-31. This repository is a public/synthetic S1 demo, not a validated product. The npm package stays installable; no new features are planned.
+Frozen on 2026-10-31; the package stays installable, but feature work stops.
 
+[English](README.md) · [简体中文](README-zh.md) · [Español](README-es.md) · [Português](README-pt.md) · [हिन्दी](README-hi.md)
 
-QMS NCR ingest, batch alias resolution, impact evaluation, CAPA and 8D state for DeepSeek Harness.
+```sh
+dsh plugin --profile <profile> add dsh-qms-capa
+```
 
-> **Status: alpha / public-synthetic / partial / not counted / not GA.** No customer evidence, customer data, or production-readiness claim. All acceptance rows are `counted=false`.
+</div>
+
+![Workflow diagram for dsh-qms-capa: local input, plugin, local output.](docs/assets/dsh-qms-capa-flow.svg)
+
+*Workflow: local input → plugin → local output. No model call is required.*
 
 ## Install
+
+Install and verify:
 
 ```sh
 dsh plugin --profile <profile> add dsh-qms-capa
 dsh --profile <profile> --dump-config | grep dsh-qms-capa
 ```
 
-Requires DSH `>=0.2.1-rc.3 <0.3.0` and Node `>=24.9 <25`.
+Uninstall:
 
-<details>
-<summary>中文摘要</summary>
+```sh
+dsh plugin --profile <profile> remove dsh-qms-capa
+```
 
-QMS NCR 入库、批次别名、影响评估、CAPA 与 8D。 安装：`dsh plugin --profile <profile> add dsh-qms-capa`。公开/合成、alpha、非 GA。
+## What it does
 
-</details>
+QMS NCR ingest, batch alias resolution, impact evaluation, CAPA and 8D state. Runs locally on DeepSeek Harness. The table below is the exact tool surface; the examples use the real command surface.
+
+Input and output stay local; nothing is uploaded.
 
 ## Tools
 
-| Tool | What it does | Risk |
+Tool names and descriptions are kept in English to match the runtime output.
+
+| Tool | Purpose | Risk |
 |---|---|---|
 | `qms.ncr` | Ingest and dedupe NCR rows | R1 local write |
 | `qms.batch_alias` | Resolve batch aliases | R0 |
@@ -37,27 +63,57 @@ QMS NCR 入库、批次别名、影响评估、CAPA 与 8D。 安装：`dsh plug
 | `qms.capa` | Open/classify/advance a CAPA | R1 local write |
 | `qms.8d` | Track D1–D8 evidence and state | R1 local write |
 
-## Input / output
+## Quick start
 
-**Input:** NCR rows and batch aliases. **Output:** an impact report, CAPA state, and D1–D8 8D evidence/state. The package records local state; it does not operate a full QMS.
+```sh
+dsh plugin --profile <profile> add dsh-qms-capa
+dsh --profile <profile> --dump-config | grep dsh-qms-capa
+```
 
-## Limits / non-claims
+## Limits
 
-- No full CAPA/8D ledger, approval workflow, e-signature, or Client surface.
-- No ERP/MES integration and no automatic disposition.
-- One MIT redacted NCR sample only; no customer plant data.
-- No customer evidence, customer data, or production-readiness claim; all fixtures are public/synthetic.
+- Public/synthetic only; no customer data or customer evidence.
+- Alpha/partial, not counted, no GA or production-readiness claim.
+- No model or network call unless a tool explicitly says so.
+- The exact per-tool boundaries are in the table and `ACCEPTANCE.csv`.
 
 ## Public sample
 
-MIT redacted NCR sample; `ACCEPTANCE.csv` lists 6 public checks.
+Public/synthetic fixtures live in `test/fixtures/`; `ACCEPTANCE.csv` records the public checks with `counted=false`.
 
 ## Development
 
 ```sh
 pnpm install --frozen-lockfile
-pnpm build && pnpm lint && pnpm typecheck && pnpm test && pnpm gate:sku08
+pnpm build && pnpm lint && pnpm typecheck && pnpm test
 ```
+
+## Family
+
+<details>
+<summary>DSH domain plugin family (15 packages + 2 suites)</summary>
+
+| Package | npm |
+|---|---|
+| **[dsh-einvoice](https://github.com/PerryLink/dsh-einvoice)** | [npm](https://www.npmjs.com/package/dsh-einvoice) |
+| **[dsh-docx-redline](https://github.com/PerryLink/dsh-docx-redline)** | [npm](https://www.npmjs.com/package/dsh-docx-redline) |
+| **[dsh-policy-ledger](https://github.com/PerryLink/dsh-policy-ledger)** | [npm](https://www.npmjs.com/package/dsh-policy-ledger) |
+| **[dsh-ghg](https://github.com/PerryLink/dsh-ghg)** | [npm](https://www.npmjs.com/package/dsh-ghg) |
+| **[dsh-bankrec](https://github.com/PerryLink/dsh-bankrec)** | [npm](https://www.npmjs.com/package/dsh-bankrec) |
+| **[dsh-ap-three-way](https://github.com/PerryLink/dsh-ap-three-way)** | [npm](https://www.npmjs.com/package/dsh-ap-three-way) |
+| **[dsh-ifc-qto](https://github.com/PerryLink/dsh-ifc-qto)** | [npm](https://www.npmjs.com/package/dsh-ifc-qto) |
+| **[dsh-qms-capa](https://github.com/PerryLink/dsh-qms-capa)** | [npm](https://www.npmjs.com/package/dsh-qms-capa) |
+| **[dsh-legal-intake](https://github.com/PerryLink/dsh-legal-intake)** | [npm](https://www.npmjs.com/package/dsh-legal-intake) |
+| **[dsh-legal-clause](https://github.com/PerryLink/dsh-legal-clause)** | [npm](https://www.npmjs.com/package/dsh-legal-clause) |
+| **[dsh-freight-audit](https://github.com/PerryLink/dsh-freight-audit)** | [npm](https://www.npmjs.com/package/dsh-freight-audit) |
+| **[dsh-hs-candidate](https://github.com/PerryLink/dsh-hs-candidate)** | [npm](https://www.npmjs.com/package/dsh-hs-candidate) |
+| **[dsh-travel-recon](https://github.com/PerryLink/dsh-travel-recon)** | [npm](https://www.npmjs.com/package/dsh-travel-recon) |
+| **[dsh-pim-lint](https://github.com/PerryLink/dsh-pim-lint)** | [npm](https://www.npmjs.com/package/dsh-pim-lint) |
+| **[dsh-eval-pack](https://github.com/PerryLink/dsh-eval-pack)** | [npm](https://www.npmjs.com/package/dsh-eval-pack) |
+| **[dsh-finops-suite](https://github.com/PerryLink/dsh-finops-suite)** | [npm](https://www.npmjs.com/package/dsh-finops-suite) |
+| **[dsh-contract-suite](https://github.com/PerryLink/dsh-contract-suite)** | [npm](https://www.npmjs.com/package/dsh-contract-suite) |
+
+</details>
 
 ## License
 
