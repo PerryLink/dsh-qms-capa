@@ -1,6 +1,6 @@
 req_id,metric,threshold,actual,script,evidence_sha256,pass
-SKU-08-A01,NCR 入库（30）,30/30,30,scripts/acceptance.mjs,482764ab519a9f70479aa03fb4bf7a4fad894a965d64f8180dcad56e98242ffc,true
-SKU-08-A02,重复开单识别（3）,3/3,3,scripts/acceptance.mjs,482764ab519a9f70479aa03fb4bf7a4fad894a965d64f8180dcad56e98242ffc,true
-SKU-08-A03,批次别名,1/1,1,scripts/acceptance.mjs,482764ab519a9f70479aa03fb4bf7a4fad894a965d64f8180dcad56e98242ffc,true
-SKU-08-A04,影响面命中,1/1,1,scripts/acceptance.mjs,482764ab519a9f70479aa03fb4bf7a4fad894a965d64f8180dcad56e98242ffc,true
-SKU-08-A05,CAPA 开启,1/1,1,scripts/acceptance.mjs,482764ab519a9f70479aa03fb4bf7a4fad894a965d64f8180dcad56e98242ffc,true
+SKU-08-A01,NCR 入库（30）,30/30,30,scripts/acceptance.mjs,2ea548151e1b978f0156f2cbf316343c909857dd8fb8e175021ff45eb8e6bede,true
+SKU-08-A02,重复开单识别（3）,3/3,3,scripts/acceptance.mjs,2ea548151e1b978f0156f2cbf316343c909857dd8fb8e175021ff45eb8e6bede,true
+SKU-08-A03,批次别名,1/1,1,scripts/acceptance.mjs,2ea548151e1b978f0156f2cbf316343c909857dd8fb8e175021ff45eb8e6bede,true
+SKU-08-A04,影响面命中,1/1,1,scripts/acceptance.mjs,2ea548151e1b978f0156f2cbf316343c909857dd8fb8e175021ff45eb8e6bede,true
+SKU-08-A05,CAPA 开启,1/1,1,scripts/acceptance.mjs,2ea548151e1b978f0156f2cbf316343c909857dd8fb8e175021ff45eb8e6bede,true
