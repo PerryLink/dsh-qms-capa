@@ -3,3 +3,7 @@
 - 3 tools; qms domain; test 2/2; gate 4/4. Publish pending.
 ### Publish verified
 - dist-tags latest/next alpha.0; tarball install/layer passed.
+
+### alpha.1 — CAPA
+
+- Added `qms.capa`; tests 4/4; gate 5 rows.
