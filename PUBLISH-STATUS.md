@@ -7,3 +7,6 @@
 
 - Added `qms.capa` open/classify/advance; alpha.1 latest/next.
 - Tests 4/4; gate 5 rows; public MIT NCR sample remains.
+
+### latest moved
+- `latest`/`next` verified alpha.1 after propagation.
