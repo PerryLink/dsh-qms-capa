@@ -7,3 +7,7 @@
 ### alpha.1 — CAPA
 
 - Added `qms.capa`; tests 4/4; gate 5 rows.
+
+### alpha.2 — 8D
+
+- Added `qms.8d`; tests 4/4; gate 6 rows.

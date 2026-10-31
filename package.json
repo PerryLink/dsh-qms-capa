@@ -1,6 +1,6 @@
 {
   "name": "@perrylink/dsh-qms-capa",
-  "version": "0.1.0-alpha.1",
+  "version": "0.1.0-alpha.2",
   "description": "QMS NCR ingest, batch alias resolution and impact evaluation (SKU-08 S1 public/synthetic demo).",
   "type": "module",
   "main": "./lib/plugin/index.js",

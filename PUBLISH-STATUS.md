@@ -10,3 +10,7 @@
 
 ### latest moved
 - `latest`/`next` verified alpha.1 after propagation.
+
+## 0.1.0-alpha.2 — 8D (2026-10-31)
+
+- Added `qms.8d` D1–D8 evidence/state; 6 gate rows.
