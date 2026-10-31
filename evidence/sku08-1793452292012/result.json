@@ -1,0 +1,52 @@
+{
+  "run_id": "sku08-1793452292012",
+  "scope": "SKU-08-S1",
+  "status": "partial",
+  "counted": false,
+  "note": "synthetic NCR; user-approved public/synthetic; 0 real plants",
+  "metrics": [
+    {
+      "i": "SKU-08-A01",
+      "m": "NCR 入库（30）",
+      "t": "30/30",
+      "a": 30,
+      "p": true
+    },
+    {
+      "i": "SKU-08-A02",
+      "m": "重复开单识别（3）",
+      "t": "3/3",
+      "a": 3,
+      "p": true
+    },
+    {
+      "i": "SKU-08-A03",
+      "m": "批次别名",
+      "t": "1/1",
+      "a": 1,
+      "p": true
+    },
+    {
+      "i": "SKU-08-A04",
+      "m": "影响面命中",
+      "t": "1/1",
+      "a": 1,
+      "p": true
+    },
+    {
+      "i": "SKU-08-A05",
+      "m": "CAPA 开启",
+      "t": "1/1",
+      "a": 1,
+      "p": true
+    },
+    {
+      "i": "SKU-08-A06",
+      "m": "8D 开启",
+      "t": "1/1",
+      "a": 1,
+      "p": true
+    }
+  ],
+  "pass": true
+}
