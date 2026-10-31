@@ -1,7 +1,7 @@
 req_id,metric,threshold,actual,script,evidence_sha256,pass,source,counted
-SKU-08-A01,NCR 入库（30）,30/30,30,scripts/acceptance.mjs,8f6f1d80ecf958fea1d45d1ec4582a1ec70745ed0dc3fb437f18b649a8730ad5,true,public/synthetic,false
-SKU-08-A02,重复开单识别（3）,3/3,3,scripts/acceptance.mjs,8f6f1d80ecf958fea1d45d1ec4582a1ec70745ed0dc3fb437f18b649a8730ad5,true,public/synthetic,false
-SKU-08-A03,批次别名,1/1,1,scripts/acceptance.mjs,8f6f1d80ecf958fea1d45d1ec4582a1ec70745ed0dc3fb437f18b649a8730ad5,true,public/synthetic,false
-SKU-08-A04,影响面命中,1/1,1,scripts/acceptance.mjs,8f6f1d80ecf958fea1d45d1ec4582a1ec70745ed0dc3fb437f18b649a8730ad5,true,public/synthetic,false
-SKU-08-A05,CAPA 开启,1/1,1,scripts/acceptance.mjs,8f6f1d80ecf958fea1d45d1ec4582a1ec70745ed0dc3fb437f18b649a8730ad5,true,public/synthetic,false
-SKU-08-A06,8D 开启,1/1,1,scripts/acceptance.mjs,8f6f1d80ecf958fea1d45d1ec4582a1ec70745ed0dc3fb437f18b649a8730ad5,true,public/synthetic,false
+SKU-08-A01,NCR 入库（30）,30/30,30,scripts/acceptance.mjs,4f247b4cfc4562927a8b5b293fe9ce20e1556bf4b8a535322075ffedf13d21ee,true,public/synthetic,false
+SKU-08-A02,重复开单识别（3）,3/3,3,scripts/acceptance.mjs,4f247b4cfc4562927a8b5b293fe9ce20e1556bf4b8a535322075ffedf13d21ee,true,public/synthetic,false
+SKU-08-A03,批次别名,1/1,1,scripts/acceptance.mjs,4f247b4cfc4562927a8b5b293fe9ce20e1556bf4b8a535322075ffedf13d21ee,true,public/synthetic,false
+SKU-08-A04,影响面命中,1/1,1,scripts/acceptance.mjs,4f247b4cfc4562927a8b5b293fe9ce20e1556bf4b8a535322075ffedf13d21ee,true,public/synthetic,false
+SKU-08-A05,CAPA 开启,1/1,1,scripts/acceptance.mjs,4f247b4cfc4562927a8b5b293fe9ce20e1556bf4b8a535322075ffedf13d21ee,true,public/synthetic,false
+SKU-08-A06,8D 开启,1/1,1,scripts/acceptance.mjs,4f247b4cfc4562927a8b5b293fe9ce20e1556bf4b8a535322075ffedf13d21ee,true,public/synthetic,false

@@ -1,4 +1,4 @@
-# @perrylink/dsh-qms-capa
+# dsh-qms-capa
 
 QMS NCR ingest, batch alias resolution, impact evaluation, CAPA and 8D state for DeepSeek Harness.
 
@@ -7,7 +7,7 @@ QMS NCR ingest, batch alias resolution, impact evaluation, CAPA and 8D state for
 ## Install
 
 ```sh
-dsh plugin --profile <profile> add @perrylink/dsh-qms-capa
+dsh plugin --profile <profile> add dsh-qms-capa
 dsh --profile <profile> --dump-config | grep dsh-qms-capa
 ```
 
@@ -16,7 +16,7 @@ Requires DSH `>=0.2.1-rc.3 <0.3.0` and Node `>=24.9 <25`.
 <details>
 <summary>中文摘要</summary>
 
-QMS NCR 入库、批次别名、影响评估、CAPA 与 8D。 安装：`dsh plugin --profile <profile> add @perrylink/dsh-qms-capa`。公开/合成、alpha、非 GA。
+QMS NCR 入库、批次别名、影响评估、CAPA 与 8D。 安装：`dsh plugin --profile <profile> add dsh-qms-capa`。公开/合成、alpha、非 GA。
 
 </details>
 
