@@ -1,11 +1,24 @@
 # Changelog
 
-## 0.1.0-alpha.2 — 2026-10-31
+All notable changes to `dsh-qms-capa` are documented here. The format follows Keep a Changelog; this project uses alpha versions.
 
-- Added `qms.8d` D1–D8 evidence/state; 6 gate rows.
+## [0.1.0-alpha.6] — 2026-11-01
 
-## 0.1.0-alpha.1 — 2026-10-31
+### Added
 
-- Added `qms.capa` open/classify/advance with grade-based due date; no 8D/ledger/Client.
-## 0.1.0-alpha.0 — 2026-10-31
-- First S1: NCR ingest/dedupe, batch alias, impact.
+- Five-language READMEs: English, 简体中文, Español, Português, हिन्दी.
+- Local workflow SVG at `docs/assets/dsh-qms-capa-flow.svg`.
+- Family cross-links (domain index, checker family, `dsh-kit`), compatibility, permissions, and related-work sections.
+- Standard repository files: `SECURITY.md`, `PRIVACY.md`, `CODE_OF_CONDUCT.md`, `CONTRIBUTING.md`, and `icon.svg`.
+
+### Changed
+
+- README aligned with the PerryLink DSH checker/plugin family style; package remains public/synthetic, alpha, not GA.
+
+### Maintenance
+
+- Frozen on 2026-10-31: no new features; only genuine breakage fixes.
+
+## [Earlier]
+
+Earlier alpha builds are available from npm and GitHub Releases; this file starts at the family-standard documentation wave.
