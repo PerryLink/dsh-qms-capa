@@ -10,5 +10,11 @@
     "kind": "flow",
     "alt": "dsh-qms-capa flow diagram",
     "caption": "Pipeline diagram, schematic not test evidence."
+  },
+  {
+    "path": "docs/assets/dsh-qms-capa-capability2.png",
+    "kind": "capability",
+    "alt": "dsh-qms-capa second capability run",
+    "caption": "Real command: node --test test/capa-effectiveness.test.mjs — 4 tests passed, 0 failed (CAPA close-readiness: state gate, overdue and recurrence blockers (ISO 9001 10.2).) Run 2026-11-01; rendered from the captured terminal output."
   }
 ]

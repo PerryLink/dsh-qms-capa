@@ -1,6 +1,12 @@
 # Changelog
 
-## [0.1.0-alpha.9] — 2026-11-01
+## [0.1.0-alpha.10] — 2026-11-01
+
+### Added
+
+- `qms.capa_effectiveness`: close-readiness review for a CAPA — state gate, overdue flag and a recurrence blocker when the NCR is a repeat, per ISO 9001:2015 10.2's effectiveness expectation. Verified by `node --test test/*.test.mjs` (13/13).
+
+## [Unreleased]
 
 ### Added
 

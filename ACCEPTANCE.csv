@@ -1,8 +1,9 @@
 req_id,metric,threshold,actual,script,evidence_sha256,pass,source,counted
-SKU-08-A01,NCR 入库（30）,30/30,30,scripts/acceptance.mjs,5ad7a287a7807d634c5a21ffceca05c605dbe41bf8e2b3b8ee904548ea9b2318,true,public/synthetic,false
-SKU-08-A02,重复开单识别（3）,3/3,3,scripts/acceptance.mjs,5ad7a287a7807d634c5a21ffceca05c605dbe41bf8e2b3b8ee904548ea9b2318,true,public/synthetic,false
-SKU-08-A03,批次别名,1/1,1,scripts/acceptance.mjs,5ad7a287a7807d634c5a21ffceca05c605dbe41bf8e2b3b8ee904548ea9b2318,true,public/synthetic,false
-SKU-08-A04,影响面命中,1/1,1,scripts/acceptance.mjs,5ad7a287a7807d634c5a21ffceca05c605dbe41bf8e2b3b8ee904548ea9b2318,true,public/synthetic,false
-SKU-08-A05,CAPA 开启,1/1,1,scripts/acceptance.mjs,5ad7a287a7807d634c5a21ffceca05c605dbe41bf8e2b3b8ee904548ea9b2318,true,public/synthetic,false
-SKU-08-A06,8D 开启,1/1,1,scripts/acceptance.mjs,5ad7a287a7807d634c5a21ffceca05c605dbe41bf8e2b3b8ee904548ea9b2318,true,public/synthetic,false
-SKU-08-A07,8D 完整性预检,8,8,scripts/acceptance.mjs,5ad7a287a7807d634c5a21ffceca05c605dbe41bf8e2b3b8ee904548ea9b2318,true,public/synthetic,false
+SKU-08-A01,NCR 入库（30）,30/30,30,scripts/acceptance.mjs,569436cc897f84a338498a5922c966b306a47c4107b1bd7bc62031e146584c6f,true,public/synthetic,false
+SKU-08-A02,重复开单识别（3）,3/3,3,scripts/acceptance.mjs,569436cc897f84a338498a5922c966b306a47c4107b1bd7bc62031e146584c6f,true,public/synthetic,false
+SKU-08-A03,批次别名,1/1,1,scripts/acceptance.mjs,569436cc897f84a338498a5922c966b306a47c4107b1bd7bc62031e146584c6f,true,public/synthetic,false
+SKU-08-A04,影响面命中,1/1,1,scripts/acceptance.mjs,569436cc897f84a338498a5922c966b306a47c4107b1bd7bc62031e146584c6f,true,public/synthetic,false
+SKU-08-A05,CAPA 开启,1/1,1,scripts/acceptance.mjs,569436cc897f84a338498a5922c966b306a47c4107b1bd7bc62031e146584c6f,true,public/synthetic,false
+SKU-08-A06,8D 开启,1/1,1,scripts/acceptance.mjs,569436cc897f84a338498a5922c966b306a47c4107b1bd7bc62031e146584c6f,true,public/synthetic,false
+SKU-08-A07,8D 完整性预检,8,8,scripts/acceptance.mjs,569436cc897f84a338498a5922c966b306a47c4107b1bd7bc62031e146584c6f,true,public/synthetic,false
+SKU-08-A08,CAPA 有效性复核,1,1,scripts/acceptance.mjs,569436cc897f84a338498a5922c966b306a47c4107b1bd7bc62031e146584c6f,true,public/synthetic,false
