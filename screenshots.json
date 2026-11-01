@@ -1,0 +1,14 @@
+[
+  {
+    "path": "docs/assets/dsh-qms-capa-capability.png",
+    "kind": "capability",
+    "alt": "dsh-qms-capa real test run",
+    "caption": "Real command: node --test test/eightd-check.test.mjs — 3 tests passed, 0 failed (8D D1-D8 completeness and ready-to-close verdict). Run 2026-11-01; the image is rendered from the captured terminal output."
+  },
+  {
+    "path": "docs/assets/dsh-qms-capa-flow.svg",
+    "kind": "flow",
+    "alt": "dsh-qms-capa flow diagram",
+    "caption": "Pipeline diagram, schematic not test evidence."
+  }
+]

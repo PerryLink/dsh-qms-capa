@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.1.0-alpha.9] — 2026-11-01
+
+### Added
+
+- `qms.8d_check`: read-only completeness check for an 8D record — missing or too-thin D1-D8 disciplines and a `ready_to_close` verdict, aligned with the ISO 9001:2015 10.2 corrective-action expectation. Verified by `node --test test/*.test.mjs` (9/9).
+
 ## [0.1.0-alpha.8] — 2026-11-01
 
 ### Changed
