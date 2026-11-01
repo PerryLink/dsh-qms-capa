@@ -93,7 +93,7 @@ dsh --profile <profile> --dump-config | grep dsh-qms-capa
 
 ### fixture 支撑的示例
 
-输入: [`fixtures/public/mit/ncr_register.redacted.csv`](fixtures/public/mit/ncr_register.redacted.csv)
+输入: [`fixtures/public/mit/ncr_register.redacted.csv`](https://github.com/PerryLink/dsh-qms-capa/blob/main/fixtures/public/mit/ncr_register.redacted.csv)
 
 命令: `pnpm test`
 
@@ -142,6 +142,8 @@ pnpm build && pnpm lint && pnpm typecheck && pnpm test
 ## 相关项目
 
 兄弟包与家族索引： [dsh-ghg](https://github.com/PerryLink/dsh-ghg) · [dsh-policy-ledger](https://github.com/PerryLink/dsh-policy-ledger)
+
+相关核查器（英文表）: [Related checkers](README.md#related-checkers).
 
 - [领域索引](https://perrylink.github.io/dsh-plugins/)
 - [Checker 家族](https://perrylink.github.io/zh/checkers/)

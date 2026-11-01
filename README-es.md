@@ -93,7 +93,7 @@ dsh --profile <profile> --dump-config | grep dsh-qms-capa
 
 ### Ejemplo respaldado por fixture
 
-Entrada: [`fixtures/public/mit/ncr_register.redacted.csv`](fixtures/public/mit/ncr_register.redacted.csv)
+Entrada: [`fixtures/public/mit/ncr_register.redacted.csv`](https://github.com/PerryLink/dsh-qms-capa/blob/main/fixtures/public/mit/ncr_register.redacted.csv)
 
 Comando: `pnpm test`
 
@@ -142,6 +142,8 @@ pnpm build && pnpm lint && pnpm typecheck && pnpm test
 ## Trabajo relacionado
 
 Paquetes hermanos e índices de familia: [dsh-ghg](https://github.com/PerryLink/dsh-ghg) · [dsh-policy-ledger](https://github.com/PerryLink/dsh-policy-ledger)
+
+Verificadores relacionados (tabla en inglés): [Related checkers](README.md#related-checkers).
 
 - [Índice de dominio](https://perrylink.github.io/dsh-plugins/)
 - [Familia de checkers](https://perrylink.github.io/zh/checkers/)

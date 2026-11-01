@@ -93,7 +93,7 @@ dsh --profile <profile> --dump-config | grep dsh-qms-capa
 
 ### Fixture-backed example
 
-Input: [`fixtures/public/mit/ncr_register.redacted.csv`](fixtures/public/mit/ncr_register.redacted.csv)
+Input: [`fixtures/public/mit/ncr_register.redacted.csv`](https://github.com/PerryLink/dsh-qms-capa/blob/main/fixtures/public/mit/ncr_register.redacted.csv)
 
 Command: `pnpm test`
 
@@ -142,6 +142,18 @@ pnpm build && pnpm lint && pnpm typecheck && pnpm test
 ## Related work
 
 Sibling packages and family indexes: [dsh-ghg](https://github.com/PerryLink/dsh-ghg) · [dsh-policy-ledger](https://github.com/PerryLink/dsh-policy-ledger)
+
+
+### Related checkers
+
+Each entry is a separate package with its own rule pack and version; install only the ones you need.
+
+| Package | Why it is relevant |
+|---|---|
+| [`dsh-fmea-table-check`](https://github.com/PerryLink/dsh-fmea-table-check) | FMEA worksheet completeness and RPN consistency. |
+| [`dsh-ppap-check`](https://github.com/PerryLink/dsh-ppap-check) | PPAP submission element completeness. |
+| [`dsh-spc-gbt-adapter`](https://github.com/PerryLink/dsh-spc-gbt-adapter) | Control-chart constants and Cp/Cpk consistency. |
+| [`dsh-sop-sync-check`](https://github.com/PerryLink/dsh-sop-sync-check) | Works-instruction / PFMEA / control-plan version sync. |
 
 - [Domain index](https://perrylink.github.io/dsh-plugins/)
 - [Checker family](https://perrylink.github.io/zh/checkers/)

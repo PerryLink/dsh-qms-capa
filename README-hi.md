@@ -93,7 +93,7 @@ dsh --profile <profile> --dump-config | grep dsh-qms-capa
 
 ### fixture-आधारित उदाहरण
 
-इनपुट: [`fixtures/public/mit/ncr_register.redacted.csv`](fixtures/public/mit/ncr_register.redacted.csv)
+इनपुट: [`fixtures/public/mit/ncr_register.redacted.csv`](https://github.com/PerryLink/dsh-qms-capa/blob/main/fixtures/public/mit/ncr_register.redacted.csv)
 
 कमांड: `pnpm test`
 
@@ -142,6 +142,8 @@ pnpm build && pnpm lint && pnpm typecheck && pnpm test
 ## संबंधित कार्य
 
 सहोदर पैकेज और परिवार सूचकांक: [dsh-ghg](https://github.com/PerryLink/dsh-ghg) · [dsh-policy-ledger](https://github.com/PerryLink/dsh-policy-ledger)
+
+संबंधित चेकर (अंग्रेज़ी तालिका): [Related checkers](README.md#related-checkers).
 
 - [डोमेन सूचकांक](https://perrylink.github.io/dsh-plugins/)
 - [चेकर परिवार](https://perrylink.github.io/zh/checkers/)
