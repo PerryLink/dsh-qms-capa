@@ -1,0 +1,34 @@
+{
+  "sample": "samples/quickstart/input/ncrs.csv",
+  "rows_read": 15,
+  "ncrs_created": 12,
+  "duplicates": 3,
+  "alias": {
+    "alias": "L-1001",
+    "canonical": "LOT-A"
+  },
+  "impact": {
+    "canonical_lot": "LOT-A",
+    "affected_count": 2,
+    "affected_lots": [
+      "LOT-A"
+    ],
+    "recall_hint": true
+  },
+  "capa": {
+    "grade": "A",
+    "state": "opened"
+  },
+  "capa_effectiveness": {
+    "ready_to_close": false,
+    "blockers": [
+      "state_not_verified"
+    ]
+  },
+  "eightd": {
+    "state": "d1",
+    "missing": 8,
+    "thin": 0,
+    "ready_to_close": false
+  }
+}

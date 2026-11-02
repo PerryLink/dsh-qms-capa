@@ -40,5 +40,5 @@ test('a recurring NCR blocks closure until effectiveness is verified', async () 
 
 test('unknown CAPA is rejected', async () => {
   const by = await setup()
-  await assert.rejects(() => by['qms.capa_effectiveness'].execute({ capa_id: 'nope' }, { callId: 'c' }), /E_QMS_STEP_ILLEGAL/)
+  await assert.rejects(() => by['qms.capa_effectiveness'].execute({ capa_id: 'nope' }, { callId: 'c' }), (error) => error.code === 'E_QMS_RECORD_NOT_FOUND' && /｜下一步：/.test(error.message))
 })

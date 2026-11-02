@@ -38,5 +38,5 @@ test('filled disciplines make the report closeable; thin content is flagged', as
 
 test('unknown 8D id is rejected', async () => {
   const by = await setup()
-  await assert.rejects(() => by['qms.8d_check'].execute({ eightd_id: 'nope' }, { callId: 'q' }), /E_QMS_STEP_ILLEGAL/)
+  await assert.rejects(() => by['qms.8d_check'].execute({ eightd_id: 'nope' }, { callId: 'q' }), (error) => error.code === 'E_QMS_RECORD_NOT_FOUND' && /｜下一步：/.test(error.message))
 })

@@ -31,6 +31,74 @@ dsh plugin --profile <profile> add dsh-qms-capa
 
 </div>
 
+## 一句话
+
+把 NCR 不良记录去重入库，查出受影响批次，并开出一张 CAPA 或 8D。
+
+## 适合 / 不适合
+
+- **适合**：几十到几百行、字段固定的 NCR 台账（CSV）；要在开 CAPA/8D 前先确认重复单和受影响批次。
+- **不适合**：没有批号或日期的手写记录；直连 MES/ERP（本包不连外部系统）；替代质量工程师做根因判断。
+
+## 输入
+
+- 格式：UTF-8 CSV，表头固定为 `plant,material,lot,defect_code,found_date,quantity,source,recurrence_of`；日期用 `YYYY-MM-DD`。
+- 大小：单批 ≤ 1 MB（自带样例 15 行，约 1 KB）。
+- 来源：从 MES 或 Excel 导出后另存为 CSV；原文件不会被修改。
+
+## 输出
+
+- 终端摘要：读入行数、新增 NCR、重复单、别名解析、受影响批次、CAPA/8D 状态。
+- 库记录：写到 `$DSH_HOME/storages/qms/`（NCR/CAPA/8D 分表存储）；原文件不改。
+- 样例金标：`samples/quickstart/expected/result.json`（由真实运行产生）。
+
+## 示例
+
+直接复制下面这句：
+
+> 我有一批 NCR 不良记录，帮我入库去重，再查出这个批次在库存和途中命中了多少。
+
+用自带样例复跑并核对金标：
+
+```sh
+node samples/quickstart/run.mjs --check
+```
+
+![dsh-qms-capa quickstart 真实运行输出](docs/assets/quickstart.png)
+
+截图就是上面这条命令的真实输出；金标比对结果见 `samples/quickstart/expected/result.json`。
+
+## 权限
+
+读：用户指定的 NCR CSV 与库存/途中快照；不读其他目录
+写：$DSH_HOME/storages/qms/；不改原文件
+联网：否
+外部系统：无
+
+写文件的工具是 `qms.ncr`、`qms.batch_alias`、`qms.capa`、`qms.8d`，均标 **R1**（本地写）；`qms.impact`、`qms.8d_check`、`qms.capa_effectiveness` 标 **R0**（只读）。
+
+## FAQ
+
+### 1. 装不上怎么办？
+
+确认 Node `>=24.9 <25`、DSH `>=0.2.1-rc.3 <0.4.0`，再执行 `dsh plugin --profile <profile> add dsh-qms-capa`。仍失败先看 `TROUBLESHOOTING.md` 第 1 条。
+
+### 2. 结果不对怎么办？
+
+先跑 `node samples/quickstart/run.mjs --check`；再检查 CSV 表头、日期格式和批号大小写。重复单的判据是 `plant+material+lot+defect_code+found_date` 五个字段完全相同。
+
+### 3. 能处理我的文件吗？
+
+能。单批 ≤1 MB 的 UTF-8 CSV，本地读、本地算，不上传、不联网。真实工厂数据不要贴进 issue。
+
+### 4. 会改我的台账吗？
+
+不会。只写 DSH 自己的 `$DSH_HOME/storages/qms/`，原 CSV 不动。
+
+## 版本
+
+`0.1.0-alpha.12` · 15 项测试通过（`node --test test/*.test.mjs`）。
+
 > ⭐ 如果它帮到了你，点个 star 会让下一个人更容易找到它；没有任何功能被 star 解锁。
 
 ![Workflow diagram for dsh-qms-capa: local input, plugin, local output.](docs/assets/dsh-qms-capa-flow.svg)
@@ -75,10 +143,12 @@ QMS NCR 入库、批次别名、影响评估、CAPA 与 8D。 在 DeepSeek Harne
 | 工具 | 用途 | 风险 |
 |---|---|---|
 | `qms.ncr` | 导入并去重 NCR 行 | R1 local write |
-| `qms.batch_alias` | 解析批次别名 | R0 |
+| `qms.batch_alias` | 设置/解析批次别名 | R1 local write |
 | `qms.impact` | 评估受影响的批次/订单 | R0 |
 | `qms.capa` | 创建/分类/推进 CAPA | R1 local write |
 | `qms.8d` | 跟踪 D1–D8 证据与状态 | R1 local write |
+| `qms.8d_check` | 8D 完整性检查（只读） | R0 |
+| `qms.capa_effectiveness` | CAPA 关闭就绪度复核（只读） | R0 |
 
 ## 快速开始
 
@@ -87,7 +157,7 @@ dsh plugin --profile <profile> add dsh-qms-capa
 dsh --profile <profile> --dump-config | grep dsh-qms-capa
 ```
 
-## 示例
+## 验收证据
 
 ### fixture 支撑的示例
 
@@ -130,7 +200,7 @@ pnpm build && pnpm lint && pnpm typecheck && pnpm test
 | Platforms | All; local files only |
 | 数据 | No network, no model call, no upload |
 
-## 权限与数据
+## 数据边界
 
 - 本地运行；不联网、不调用模型、不上传。
 - 只使用公开/合成 fixture；不含客户数据或客户证据。

@@ -1,6 +1,6 @@
 {
   "name": "dsh-qms-capa",
-  "version": "0.1.0-alpha.12",
+  "version": "0.1.0-alpha.13",
   "description": "QMS NCR ingest, batch alias resolution, impact evaluation, CAPA and 8D state.",
   "type": "module",
   "main": "./lib/plugin/index.js",
@@ -28,11 +28,28 @@
     "CODE_OF_CONDUCT.md",
     "CONTRIBUTING.md",
     "CHANGELOG.md",
-    "icon.svg"
+    "icon.svg",
+    "samples",
+    "TROUBLESHOOTING.md",
+    "screenshots.json"
   ],
   "dsh": {
     "bundle": {
       "patch": "./cordis.patch.yml"
+    },
+    "demo": {
+      "sample": "samples/quickstart/input/ncrs.csv",
+      "prompt": "我有一批 NCR 不良记录，帮我入库去重，再查出这个批次在库存和途中命中了多少。",
+      "expect": "samples/quickstart/expected/result.json",
+      "screenshot": "docs/assets/quickstart.png",
+      "reads": [
+        "用户提供的 NCR 表（样例：samples/quickstart/input/ncrs.csv）"
+      ],
+      "writes": [
+        "$DSH_HOME/storages/qms/"
+      ],
+      "network": false,
+      "external": []
     }
   },
   "engines": {
