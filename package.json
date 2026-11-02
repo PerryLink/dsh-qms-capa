@@ -1,6 +1,6 @@
 {
   "name": "dsh-qms-capa",
-  "version": "0.1.0-alpha.11",
+  "version": "0.1.0-alpha.12",
   "description": "QMS NCR ingest, batch alias resolution, impact evaluation, CAPA and 8D state.",
   "type": "module",
   "main": "./lib/plugin/index.js",
@@ -97,5 +97,13 @@
   "bugs": {
     "url": "https://github.com/PerryLink/dsh-qms-capa/issues"
   },
-  "icon": "icon.svg"
+  "icon": "icon.svg",
+  "peerDependenciesMeta": {
+    "@deepseek-ai/dsh-storage-domain": {
+      "optional": true
+    },
+    "@deepseek-ai/dsh-tools": {
+      "optional": true
+    }
+  }
 }
