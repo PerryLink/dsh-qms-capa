@@ -1,6 +1,6 @@
 {
   "name": "dsh-qms-capa",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "QMS NCR ingest, batch alias resolution, impact evaluation, CAPA and 8D state.",
   "type": "module",
   "main": "./lib/plugin/index.js",
