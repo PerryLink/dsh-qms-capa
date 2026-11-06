@@ -1,8 +1,8 @@
 <div align="center">
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/dsh-qms-capa-flow-dark.svg">
-  <img src="docs/assets/dsh-qms-capa-flow-light.svg" width="100%" alt="dsh-qms-capa प्रवाह: NCR CSV → qms.ncr → qms.batch_alias → qms.impact → qms.capa / qms.8d; डेटा केवल स्थानीय qms स्टोरेज डोमेन में रहता है">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/dsh-qms-capa-hero-en-dark.webp">
+  <img src="docs/assets/dsh-qms-capa-hero-en-light.webp" width="100%" alt="dsh-qms-capa: बाईं ओर प्लगइन का नाम और दो मूल्य-पंक्तियाँ; दाईं ओर एक NCR घटना का प्रभाव-क्षेत्र — पाँच-फ़ील्ड डिडुप्लिकेशन कुंजी (P1, M-1001, L-1001, D-101, 2026-03-01) और डुप्लिकेट शाखा, स्टॉक तथा पारगमन स्नैपशॉट की दो पट्टियाँ जो एक ही निर्णय पर मिलती हैं (affected 2, recall_hint true, evidence_sha256), और नीचे CAPA A रिकॉर्ड खुला जबकि 8D d1 पर है; पाद में लिखा है कि नमूना संश्लेषित है, वास्तविक संयंत्र डेटा नहीं">
 </picture>
 
 # dsh-qms-capa
@@ -36,6 +36,11 @@ dsh plugin --profile <name> add dsh-qms-capa
 ## यह क्या है
 
 `dsh-qms-capa` DeepSeek Harness के भीतर पूरी तरह स्थानीय गुणवत्ता-घटना पाइपलाइन चलाता है: NCR पंक्तियों को स्टोर में डुप्लिकेट-रहित करता है (कुंजी है `plant`+`material`+`lot`+`defect_code`+`found_date` का बिल्कुल समान होना), बैच alias को कैनोनिकल लॉट में हल करता है, स्टॉक और ट्रांज़िट स्नैपशॉट के आधार पर प्रभावित सतह का आकलन करता है, और फिर एक CAPA या 8D खोलकर उसे स्थितियों में आगे बढ़ाता है। टूल के नाम ही स्थिर API हैं (`qms.*`): क्रम है इनजेस्ट → alias → impact → CAPA/8D → समीक्षा। इनपुट और आउटपुट आपकी मशीन पर ही रहते हैं; कोई नेटवर्क अनुरोध नहीं, कोई मॉडल कॉल नहीं।
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/dsh-qms-capa-flow-v5-dark.svg">
+  <img src="docs/assets/dsh-qms-capa-flow-v5-light.svg" width="100%" alt="dsh-qms-capa संरचना: बाईं ओर ऊर्ध्वाधर इनजेस्ट स्पाइन (आठ-कॉलम ncrs.csv, qms.ncr जो 12 नई पंक्तियों को 3 डुप्लिकेट से अलग करता है जो अपनी पहले की आईडी रखते हैं, qms.batch_alias जो L-1001 को कैनोनिकल लॉट LOT-A से जोड़ता है); प्रभाव प्लेट उस लॉट के लिए स्टॉक और पारगमन स्नैपशॉट पट्टियाँ स्कैन करके एक निर्णय पर पहुँचती है (affected 2, recall_hint true, evidence_sha256), और छूटे स्नैपशॉट के लिए डैश्ड द्वार है; नीचे CAPA और 8D की दो स्थिति-पट्टियाँ ग्रेड-आधारित देय तिथियाँ और खाली discipline का द्वार दिखाती हैं, तथा दो केवल-पढ़ने वाले समीक्षा कार्ड उन पट्टियों को पढ़ते हैं बिना लिखे; हर R1 लेखन स्थानीय qms स्टोरेज डोमेन में जाता है">
+</picture>
 
 **उपयुक्त**: निश्चित स्कीमा वाला NCR लेजर (CSV), जिसमें दर्जनों से सैकड़ों पंक्तियाँ हों और CAPA/8D खोलने से पहले डुप्लिकेट पंक्तियों तथा प्रभावित लॉट की पुष्टि करनी हो। **उपयुक्त नहीं**: बिना लॉट या तारीख वाले हस्तलिखित रिकॉर्ड; सीधा MES/ERP कनेक्शन (यह पैकेज किसी बाहरी सिस्टम से नहीं जुड़ता); क्वालिटी इंजीनियर के मूल-कारण निर्णय का स्थान लेना।
 
@@ -322,7 +327,7 @@ pnpm run pack:check                                      # प्रकाशि
 | `docs/assets/` | README की छवियाँ |
 | `evidence/` | स्वीकृति रन के स्नैपशॉट (`sku08-*/result.json`) |
 
-README की छवियाँ [`scripts/gen-readme-assets.py`](scripts/gen-readme-assets.py) से कार्यक्रम द्वारा बनती हैं (Python; SVG मार्ग के लिए Pillow नहीं चाहिए)। `python scripts/gen-readme-assets.py` दोबारा चलाने पर `docs/assets/dsh-qms-capa-flow-{light,dark}.svg` फिर से लिखे जाते हैं; आरेख में केवल कमांड/लेखांकन टोकन हैं और यह पाँचों भाषाओं में साझा है। पुराना एकल-संस्करण `docs/assets/dsh-qms-capa-flow.svg` जानबूझकर नहीं हटाया गया ताकि बाहरी लिंक टूटें नहीं।
+README की छवियाँ [`scripts/gen-readme-assets.py`](scripts/gen-readme-assets.py) से कार्यक्रम द्वारा बनती हैं (hero के लिए Pillow, संरचना चित्र के लिए हाथ से लिखा SVG) और स्क्रिप्ट दोबारा चलाई जा सकती है: `python scripts/gen-readme-assets.py` `docs/assets/dsh-qms-capa-hero-{zh,en}-{light,dark}.webp` और `docs/assets/dsh-qms-capa-flow-v5-{light,dark}.svg` को फिर से लिखती है। चित्र में केवल कमांड/लेखा टोकन हैं, इसलिए पाँचों भाषाएँ एक ही जोड़ी साझा करती हैं; पुराने `docs/assets/dsh-qms-capa-flow.svg` और `docs/assets/dsh-qms-capa-flow-{light,dark}.svg` बाहरी लिंक के लिए रखे गए हैं।
 
 Topics: `dsh`, `dsh-plugin`, `deepseek-harness`, `deepseek`, `cordis`, `qms`, `ncr`, `capa`, `8d`, `manufacturing`
 

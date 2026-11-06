@@ -1,8 +1,8 @@
 <div align="center">
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/dsh-qms-capa-flow-dark.svg">
-  <img src="docs/assets/dsh-qms-capa-flow-light.svg" width="100%" alt="Flujo de dsh-qms-capa: CSV de NCR → qms.ncr → qms.batch_alias → qms.impact → qms.capa / qms.8d; los datos solo se guardan en el dominio de almacenamiento local qms">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/dsh-qms-capa-hero-en-dark.webp">
+  <img src="docs/assets/dsh-qms-capa-hero-en-light.webp" width="100%" alt="dsh-qms-capa: a la izquierda el nombre del plugin y dos frases de valor; a la derecha, el campo de impacto de un evento NCR — la clave de deduplicación de cinco campos (P1, M-1001, L-1001, D-101, 2026-03-01) junto a la rama de duplicados, los carriles de instantáneas de stock y tránsito que confluyen en un solo veredicto (affected 2, recall_hint true, evidence_sha256), y debajo el registro CAPA A abierto mientras el 8D sigue en d1; el pie indica que la muestra es sintética, no datos de planta">
 </picture>
 
 # dsh-qms-capa
@@ -36,6 +36,11 @@ dsh plugin --profile <name> add dsh-qms-capa
 ## Qué es
 
 `dsh-qms-capa` ejecuta una canalización de eventos de calidad totalmente local dentro de DeepSeek Harness: deduplica las filas de NCR en el almacén (la clave es que `plant`+`material`+`lot`+`defect_code`+`found_date` sean idénticos), resuelve los alias de lote a lotes canónicos, evalúa la superficie afectada contra las instantáneas de stock y tránsito, y luego abre una CAPA o un 8D y lo avanza por sus estados. Los nombres de herramienta son la API estable (`qms.*`): se llaman como ingesta → alias → impacto → CAPA/8D → revisión. La entrada y la salida se quedan en la máquina; no hay peticiones de red ni llamadas a un modelo.
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/dsh-qms-capa-flow-v5-dark.svg">
+  <img src="docs/assets/dsh-qms-capa-flow-v5-light.svg" width="100%" alt="dsh-qms-capa, estructura: una columna vertebral de ingesta a la izquierda (el ncrs.csv de ocho columnas, qms.ncr que separa 12 filas nuevas de 3 duplicados que conservan su identificador, qms.batch_alias que lleva L-1001 al lote canónico LOT-A); la placa de impacto escanea los carriles de stock y tránsito para ese lote y converge en un veredicto (affected 2, recall_hint true, evidence_sha256), con una puerta discontinua para una instantánea ausente; debajo, dos carriles de estado para CAPA y 8D con los vencimientos por grado y la puerta de disciplina vacía, y dos tarjetas de revisión de solo lectura que leen esos carriles sin escribir; toda escritura R1 cae en el dominio de almacenamiento qms local">
+</picture>
 
 **Encaja**: un libro de NCR (CSV) de esquema fijo con decenas o cientos de filas, cuando se quieren confirmar duplicados y lotes afectados antes de abrir una CAPA/8D. **No encaja**: registros manuscritos sin lote ni fecha; una conexión directa a MES/ERP (este paquete no habla con ningún sistema externo); sustituir el juicio de causa raíz de un ingeniero de calidad.
 
@@ -322,7 +327,7 @@ Estructura de directorios:
 | `docs/assets/` | Imágenes del README |
 | `evidence/` | Instantáneas de ejecución de aceptación (`sku08-*/result.json`) |
 
-Las imágenes del README las genera por programa [`scripts/gen-readme-assets.py`](scripts/gen-readme-assets.py) (Python; la ruta SVG no necesita Pillow). Volver a ejecutar `python scripts/gen-readme-assets.py` reescribe `docs/assets/dsh-qms-capa-flow-{light,dark}.svg`; el diagrama solo usa tokens de comando/contabilidad y lo comparten los cinco idiomas. El antiguo `docs/assets/dsh-qms-capa-flow.svg` de una sola versión se conserva para que los enlaces externos sigan resolviendo.
+Las imágenes del README las genera por programa [`scripts/gen-readme-assets.py`](scripts/gen-readme-assets.py) (Pillow para el hero, SVG escrito a mano para el diagrama de estructura) y el script se puede volver a ejecutar: `python scripts/gen-readme-assets.py` reescribe `docs/assets/dsh-qms-capa-hero-{zh,en}-{light,dark}.webp` y `docs/assets/dsh-qms-capa-flow-v5-{light,dark}.svg`. El diagrama solo usa tokens de comando/contabilidad, así que los cinco idiomas comparten un único par; el antiguo `docs/assets/dsh-qms-capa-flow.svg` y el par `docs/assets/dsh-qms-capa-flow-{light,dark}.svg` se conservan para que los enlaces externos sigan resolviendo.
 
 Temas: `dsh`, `dsh-plugin`, `deepseek-harness`, `deepseek`, `cordis`, `qms`, `ncr`, `capa`, `8d`, `manufacturing`
 

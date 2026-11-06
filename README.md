@@ -1,8 +1,8 @@
 <div align="center">
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/dsh-qms-capa-flow-dark.svg">
-  <img src="docs/assets/dsh-qms-capa-flow-light.svg" width="100%" alt="dsh-qms-capa 流水线：NCR CSV → qms.ncr → qms.batch_alias → qms.impact → qms.capa / qms.8d；数据只落在本地 storage domain qms">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/dsh-qms-capa-hero-zh-dark.webp">
+  <img src="docs/assets/dsh-qms-capa-hero-zh-light.webp" width="100%" alt="dsh-qms-capa 配图：左侧是插件名与两句价值；右侧是一张 NCR 事件的影响面——五字段去重键 P1/M-1001/L-1001/D-101/2026-03-01 旁标出 3 条重复，库存与途中两条快照通道汇到同一结论（affected 2、recall_hint true、evidence_sha256），下方是 CAPA A 开单与 8D 停在 d1，页脚注明样例取自 quickstart、非真实工厂数据">
 </picture>
 
 # dsh-qms-capa
@@ -36,6 +36,11 @@ dsh plugin --profile <name> add dsh-qms-capa
 ## 它是什么
 
 `dsh-qms-capa` 在 DeepSeek Harness 里跑一条纯本地的质量事件流水线：把 NCR 不良记录去重入库（判据是 `plant`+`material`+`lot`+`defect_code`+`found_date` 五字段完全相同），把批次别名解析到正式批号，对照库存/途中快照评估影响面，再开出 CAPA 或 8D 并按状态推进。工具名就是稳定 API（`qms.*`），按「入库 → 别名 → 影响面 → CAPA/8D → 复核」调用即可。输入与输出都留在本机，没有联网请求，也没有模型调用。
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/dsh-qms-capa-flow-v5-dark.svg">
+  <img src="docs/assets/dsh-qms-capa-flow-v5-light.svg" width="100%" alt="dsh-qms-capa 结构图：左侧纵向入库脊柱——八列 ncrs.csv、qms.ncr 把 12 条新增与 3 条重复分开（重复只返回已有编号）、qms.batch_alias 把 L-1001 归到正式批号 LOT-A；右侧上方是影响面，库存与途中两条快照通道扫描同一正式批号后汇成一个结论（affected 2、recall_hint true、evidence_sha256），缺任一份快照即以虚线边界报 E_QMS_IMPACT_INCOMPLETE；中间是 CAPA 与 8D 两条状态轨，标出等级到期 A+7/B+14/C+30 天与当前 discipline 为空即拒绝推进；下方两张只读复核卡沿虚线读回状态而不写库，底部是唯一落点 storage domain qms 与本地边界">
+</picture>
 
 **适合**：几十到几百行、字段固定的 NCR 台账（CSV）；要在开 CAPA/8D 前先确认重复单和受影响批次。**不适合**：没有批号或日期的手写记录；直连 MES/ERP（本包不连外部系统）；替代质量工程师做根因判断。
 
@@ -322,7 +327,7 @@ pnpm run pack:check                                      # 发布 tarball 内容
 | `docs/assets/` | README 配图 |
 | `evidence/` | 验收运行快照（`sku08-*/result.json`） |
 
-配图由 [`scripts/gen-readme-assets.py`](scripts/gen-readme-assets.py) 程序化生成（Python；SVG 为矢量，不需要 Pillow）。重跑 `python scripts/gen-readme-assets.py` 会重写 `docs/assets/dsh-qms-capa-flow-{light,dark}.svg`；图内只有命令/记账 token，五语共用。旧的单版 `docs/assets/dsh-qms-capa-flow.svg` 保留不删，避免外链 404。
+配图由 [`scripts/gen-readme-assets.py`](scripts/gen-readme-assets.py) 程序化生成（Pillow 画 hero、手写 SVG 画结构图），可重复执行：`python scripts/gen-readme-assets.py` 会重写 `docs/assets/dsh-qms-capa-hero-{zh,en}-{light,dark}.webp` 与 `docs/assets/dsh-qms-capa-flow-v5-{light,dark}.svg`。图内只有命令/记账 token，五语共用同一张结构图；旧的 `docs/assets/dsh-qms-capa-flow.svg` 与 `docs/assets/dsh-qms-capa-flow-{light,dark}.svg` 保留不删，避免外链 404。
 
 Topics：`dsh`, `dsh-plugin`, `deepseek-harness`, `deepseek`, `cordis`, `qms`, `ncr`, `capa`, `8d`, `manufacturing`
 

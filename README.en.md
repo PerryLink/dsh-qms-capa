@@ -1,8 +1,8 @@
 <div align="center">
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/dsh-qms-capa-flow-dark.svg">
-  <img src="docs/assets/dsh-qms-capa-flow-light.svg" width="100%" alt="dsh-qms-capa pipeline: NCR CSV → qms.ncr → qms.batch_alias → qms.impact → qms.capa / qms.8d; data lands only in the local qms storage domain">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/dsh-qms-capa-hero-en-dark.webp">
+  <img src="docs/assets/dsh-qms-capa-hero-en-light.webp" width="100%" alt="dsh-qms-capa: the plugin name and two value lines on the left; on the right the impact field of one NCR event — the five-field dedupe key (P1, M-1001, L-1001, D-101, 2026-03-01) beside a duplicate branch, the stock and intransit snapshot lanes converging on one verdict (affected 2, recall_hint true, evidence_sha256), and below it the CAPA A record opened while the 8D sits at d1; the footer marks the sample as synthetic, not plant data">
 </picture>
 
 # dsh-qms-capa
@@ -36,6 +36,11 @@ dsh plugin --profile <name> add dsh-qms-capa
 ## What it is
 
 `dsh-qms-capa` runs a fully local quality-event pipeline inside DeepSeek Harness: it deduplicates NCR rows into the store (the key is `plant`+`material`+`lot`+`defect_code`+`found_date` being identical), resolves batch aliases to canonical lots, evaluates the affected surface against stock and in-transit snapshots, then opens a CAPA or an 8D and advances it through its states. Tool names are the stable API (`qms.*`): call them as ingest → alias → impact → CAPA/8D → review. Input and output stay on the machine; there are no network requests and no model calls.
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/dsh-qms-capa-flow-v5-dark.svg">
+  <img src="docs/assets/dsh-qms-capa-flow-v5-light.svg" width="100%" alt="dsh-qms-capa structure: a vertical ingest spine on the left (the eight-column ncrs.csv, qms.ncr splitting 12 new rows from 3 duplicates that keep their existing id, qms.batch_alias mapping L-1001 to the canonical lot LOT-A); the impact plate scans the stock and intransit snapshot lanes for that lot and converges on one verdict (affected 2, recall_hint true, evidence_sha256), with a dashed gate for a missing snapshot; below, two state rails for CAPA and 8D carry the grade-based due dates and the empty-discipline gate, and two read-only review cards read those rails back without writing; every R1 write lands in the local qms storage domain">
+</picture>
 
 **Good fit**: a fixed-schema NCR ledger (CSV) with tens to hundreds of rows, where duplicate rows and the affected batches should be confirmed before a CAPA/8D is opened. **Not a fit**: handwritten records with no lot or date; a direct MES/ERP connection (this package talks to no external system); replacing a quality engineer's root-cause judgement.
 
@@ -322,7 +327,7 @@ Directory layout:
 | `docs/assets/` | README images |
 | `evidence/` | Acceptance run snapshots (`sku08-*/result.json`) |
 
-The README images are generated programmatically by [`scripts/gen-readme-assets.py`](scripts/gen-readme-assets.py) (Python; the SVG path needs no Pillow). Re-running `python scripts/gen-readme-assets.py` rewrites `docs/assets/dsh-qms-capa-flow-{light,dark}.svg`; the diagram uses command/bookkeeping tokens only and is shared by all five languages. The older single-version `docs/assets/dsh-qms-capa-flow.svg` is kept so old external links keep resolving.
+The README images are generated programmatically by [`scripts/gen-readme-assets.py`](scripts/gen-readme-assets.py) (Pillow for the hero, hand-written SVG for the structure figure) and the script can be re-run: `python scripts/gen-readme-assets.py` rewrites `docs/assets/dsh-qms-capa-hero-{zh,en}-{light,dark}.webp` and `docs/assets/dsh-qms-capa-flow-v5-{light,dark}.svg`. The structure figure carries command/bookkeeping tokens only, so all five languages share one pair; the older `docs/assets/dsh-qms-capa-flow.svg` and `docs/assets/dsh-qms-capa-flow-{light,dark}.svg` are kept on disk so old external links keep resolving.
 
 Topics: `dsh`, `dsh-plugin`, `deepseek-harness`, `deepseek`, `cordis`, `qms`, `ncr`, `capa`, `8d`, `manufacturing`
 
