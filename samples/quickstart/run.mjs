@@ -54,16 +54,16 @@ async function run() {
   const byName = Object.fromEntries(tools.map((tool) => [tool.name, tool]))
   const call = { callId: 'quickstart' }
 
-  const ingest = await byName['qms.ncr'].execute({ ncrs: ncrRows }, call)
+  const ingest = await byName['qms_ncr'].execute({ ncrs: ncrRows }, call)
   const firstNcr = ingest.ncrs[0]
-  const alias = await byName['qms.batch_alias'].execute(
+  const alias = await byName['qms_batch_alias'].execute(
     { action: 'set', alias: aliasRows[0].alias, canonical: aliasRows[0].canonical }, call,
   )
-  const impact = await byName['qms.impact'].execute({ ncr_id: firstNcr, snapshots }, call)
-  const capa = await byName['qms.capa'].execute({ action: 'open', ncr_id: firstNcr, grade: 'A' }, call)
-  const effectiveness = await byName['qms.capa_effectiveness'].execute({ capa_id: capa.capa_id }, call)
-  const eightd = await byName['qms.8d'].execute({ action: 'open', ncr_id: firstNcr }, call)
-  const eightdCheck = await byName['qms.8d_check'].execute({ eightd_id: eightd.eightd_id }, call)
+  const impact = await byName['qms_impact'].execute({ ncr_id: firstNcr, snapshots }, call)
+  const capa = await byName['qms_capa'].execute({ action: 'open', ncr_id: firstNcr, grade: 'A' }, call)
+  const effectiveness = await byName['qms_capa_effectiveness'].execute({ capa_id: capa.capa_id }, call)
+  const eightd = await byName['qms_8d'].execute({ action: 'open', ncr_id: firstNcr }, call)
+  const eightdCheck = await byName['qms_8d_check'].execute({ eightd_id: eightd.eightd_id }, call)
 
   return {
     sample: 'samples/quickstart/input/ncrs.csv',

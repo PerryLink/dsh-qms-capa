@@ -35,11 +35,11 @@ dsh plugin --profile <name> add dsh-qms-capa
 
 ## Qué es
 
-`dsh-qms-capa` ejecuta una canalización de eventos de calidad totalmente local dentro de DeepSeek Harness: deduplica las filas de NCR en el almacén (la clave es que `plant`+`material`+`lot`+`defect_code`+`found_date` sean idénticos), resuelve los alias de lote a lotes canónicos, evalúa la superficie afectada contra las instantáneas de stock y tránsito, y luego abre una CAPA o un 8D y lo avanza por sus estados. Los nombres de herramienta son la API estable (`qms.*`): se llaman como ingesta → alias → impacto → CAPA/8D → revisión. La entrada y la salida se quedan en la máquina; no hay peticiones de red ni llamadas a un modelo.
+`dsh-qms-capa` ejecuta una canalización de eventos de calidad totalmente local dentro de DeepSeek Harness: deduplica las filas de NCR en el almacén (la clave es que `plant`+`material`+`lot`+`defect_code`+`found_date` sean idénticos), resuelve los alias de lote a lotes canónicos, evalúa la superficie afectada contra las instantáneas de stock y tránsito, y luego abre una CAPA o un 8D y lo avanza por sus estados. Los nombres de herramienta son la API estable (`qms_*`): se llaman como ingesta → alias → impacto → CAPA/8D → revisión. La entrada y la salida se quedan en la máquina; no hay peticiones de red ni llamadas a un modelo.
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/dsh-qms-capa-flow-v5-dark.svg">
-  <img src="docs/assets/dsh-qms-capa-flow-v5-light.svg" width="100%" alt="dsh-qms-capa, estructura: una columna vertebral de ingesta a la izquierda (el ncrs.csv de ocho columnas, qms.ncr que separa 12 filas nuevas de 3 duplicados que conservan su identificador, qms.batch_alias que lleva L-1001 al lote canónico LOT-A); la placa de impacto escanea los carriles de stock y tránsito para ese lote y converge en un veredicto (affected 2, recall_hint true, evidence_sha256), con una puerta discontinua para una instantánea ausente; debajo, dos carriles de estado para CAPA y 8D con los vencimientos por grado y la puerta de disciplina vacía, y dos tarjetas de revisión de solo lectura que leen esos carriles sin escribir; toda escritura R1 cae en el dominio de almacenamiento qms local">
+  <img src="docs/assets/dsh-qms-capa-flow-v5-light.svg" width="100%" alt="dsh-qms-capa, estructura: una columna vertebral de ingesta a la izquierda (el ncrs.csv de ocho columnas, qms_ncr que separa 12 filas nuevas de 3 duplicados que conservan su identificador, qms_batch_alias que lleva L-1001 al lote canónico LOT-A); la placa de impacto escanea los carriles de stock y tránsito para ese lote y converge en un veredicto (affected 2, recall_hint true, evidence_sha256), con una puerta discontinua para una instantánea ausente; debajo, dos carriles de estado para CAPA y 8D con los vencimientos por grado y la puerta de disciplina vacía, y dos tarjetas de revisión de solo lectura que leen esos carriles sin escribir; toda escritura R1 cae en el dominio de almacenamiento qms local">
 </picture>
 
 **Encaja**: un libro de NCR (CSV) de esquema fijo con decenas o cientos de filas, cuando se quieren confirmar duplicados y lotes afectados antes de abrir una CAPA/8D. **No encaja**: registros manuscritos sin lote ni fecha; una conexión directa a MES/ERP (este paquete no habla con ningún sistema externo); sustituir el juicio de causa raíz de un ingeniero de calidad.
@@ -57,7 +57,7 @@ En DSH puedes decir directamente:
 1. **Instala** (elige un canal; npm es el recomendado):
 
    ```sh
-   # npm (recomendado, 0.1.1 publicado)
+   # npm (recomendado, 0.2.0 publicado)
    dsh plugin --profile <name> add dsh-qms-capa
    # canal git (sigue main; lib/ es un artefacto de build y no está en el repo: ejecuta antes pnpm install && pnpm build en el checkout)
    dsh plugin --profile <name> add github:PerryLink/dsh-qms-capa
@@ -103,25 +103,25 @@ quickstart ok
 
 ## Capacidades clave
 
-- **Ingesta y deduplicación de NCR** — `qms.ncr` valida que `plant`/`material`/`lot`/`defect_code`/`found_date` no estén vacíos y deduplica por la clave formada por esos cinco campos; un duplicado devuelve el `ncr_id` existente y nunca sobrescribe ni cambia la cantidad. Una llamada devuelve los ids nuevos, los duplicados y `field_f1`.
-- **Alias de lote** — `qms.batch_alias` apunta un lote temporal del MES (como `L-1001`) a un lote canónico (como `LOT-A`); `set` exige `canonical`, `resolve` devuelve el alias sin cambios si no acierta. La evaluación de impacto sigue los alias automáticamente.
-- **Evaluación de impacto** — `qms.impact` lee las listas `stock` e `intransit`, las fusiona mediante los alias y devuelve `affected` y `recall_hint`; el SHA-256 del JSON de instantáneas queda como `evidence_sha256`. Si falta una instantánea, falla con `E_QMS_IMPACT_INCOMPLETE`.
-- **Ciclo de vida CAPA** — `qms.capa` admite `open`/`classify`/`advance`; los grados A/B/C fijan `due_date` a 7/14/30 días, y el estado avanza `opened → contained → root_cause → corrective → verified → closed`. `classify` recalcula el plazo con el nuevo grado.
-- **8D con puerta de evidencia** — `qms.8d` admite `open`/`update`/`advance` y registra evidencia D1–D8 por disciplina; avanzar sin contenido en la disciplina actual se rechaza (`E_QMS_STEP_ILLEGAL`), sin saltarse pasos.
-- **Revisiones de solo lectura** — `qms.8d_check` informa disciplinas D1–D8 faltantes o demasiado finas y `ready_to_close`; `qms.capa_effectiveness` informa la puerta de estado, el vencimiento y el bloqueo por reincidencia. Ninguna escribe el almacén ni aprueba nada.
+- **Ingesta y deduplicación de NCR** — `qms_ncr` valida que `plant`/`material`/`lot`/`defect_code`/`found_date` no estén vacíos y deduplica por la clave formada por esos cinco campos; un duplicado devuelve el `ncr_id` existente y nunca sobrescribe ni cambia la cantidad. Una llamada devuelve los ids nuevos, los duplicados y `field_f1`.
+- **Alias de lote** — `qms_batch_alias` apunta un lote temporal del MES (como `L-1001`) a un lote canónico (como `LOT-A`); `set` exige `canonical`, `resolve` devuelve el alias sin cambios si no acierta. La evaluación de impacto sigue los alias automáticamente.
+- **Evaluación de impacto** — `qms_impact` lee las listas `stock` e `intransit`, las fusiona mediante los alias y devuelve `affected` y `recall_hint`; el SHA-256 del JSON de instantáneas queda como `evidence_sha256`. Si falta una instantánea, falla con `E_QMS_IMPACT_INCOMPLETE`.
+- **Ciclo de vida CAPA** — `qms_capa` admite `open`/`classify`/`advance`; los grados A/B/C fijan `due_date` a 7/14/30 días, y el estado avanza `opened → contained → root_cause → corrective → verified → closed`. `classify` recalcula el plazo con el nuevo grado.
+- **8D con puerta de evidencia** — `qms_8d` admite `open`/`update`/`advance` y registra evidencia D1–D8 por disciplina; avanzar sin contenido en la disciplina actual se rechaza (`E_QMS_STEP_ILLEGAL`), sin saltarse pasos.
+- **Revisiones de solo lectura** — `qms_8d_check` informa disciplinas D1–D8 faltantes o demasiado finas y `ready_to_close`; `qms_capa_effectiveness` informa la puerta de estado, el vencimiento y el bloqueo por reincidencia. Ninguna escribe el almacén ni aprueba nada.
 - **Totalmente local** — sin red, sin llamadas a modelo, sin subidas; solo lee y escribe su propio dominio de almacenamiento `qms` y nunca modifica el CSV que aportas.
 
 ### Superficie de herramientas
 
 | Herramienta | Propósito | Riesgo |
 |---|---|---|
-| `qms.ncr` | Ingerir y deduplicar filas de NCR (plant/material/lot/defect_code/found_date) | R1 local write |
-| `qms.batch_alias` | Definir o resolver un alias de lote a un lote canónico | R1 local write |
-| `qms.impact` | Evaluar lotes afectados contra instantáneas de stock/tránsito y dar una pista de retirada | R0 |
-| `qms.capa` | Abrir/clasificar/avanzar una CAPA y calcular el vencimiento según el grado | R1 local write |
-| `qms.8d` | Seguir la evidencia y el estado de D1–D8 | R1 local write |
-| `qms.8d_check` | Prechequeo de completitud del 8D: disciplinas faltantes/finas y `ready_to_close` | R0 |
-| `qms.capa_effectiveness` | Revisión de preparación para cerrar una CAPA: puerta de estado, vencimiento, reincidencia | R0 |
+| `qms_ncr` | Ingerir y deduplicar filas de NCR (plant/material/lot/defect_code/found_date) | R1 local write |
+| `qms_batch_alias` | Definir o resolver un alias de lote a un lote canónico | R1 local write |
+| `qms_impact` | Evaluar lotes afectados contra instantáneas de stock/tránsito y dar una pista de retirada | R0 |
+| `qms_capa` | Abrir/clasificar/avanzar una CAPA y calcular el vencimiento según el grado | R1 local write |
+| `qms_8d` | Seguir la evidencia y el estado de D1–D8 | R1 local write |
+| `qms_8d_check` | Prechequeo de completitud del 8D: disciplinas faltantes/finas y `ready_to_close` | R0 |
+| `qms_capa_effectiveness` | Revisión de preparación para cerrar una CAPA: puerta de estado, vencimiento, reincidencia | R0 |
 
 R0 = solo lectura; R1 = escribe solo el dominio local `qms`, nunca la red.
 
@@ -206,7 +206,7 @@ Todo error es «una frase clara (`E_QMS_*`) | Siguiente: una acción»; los deta
 <details>
 <summary>¿Dónde se guardan los datos? ¿Modifica mi libro?</summary>
 
-Los registros van al dominio de almacenamiento `qms`, raíz por defecto `$DSH_HOME/storages/qms/` (cuatro tablas: NCR, alias, CAPA y 8D). El CSV que aportas es de solo lectura; no se sube nada y no hay telemetría. Las filas entran en el almacén solo después de que `qms.ncr` las ingiera.
+Los registros van al dominio de almacenamiento `qms`, raíz por defecto `$DSH_HOME/storages/qms/` (cuatro tablas: NCR, alias, CAPA y 8D). El CSV que aportas es de solo lectura; no se sube nada y no hay telemetría. Las filas entran en el almacén solo después de que `qms_ncr` las ingiera.
 
 </details>
 
@@ -234,7 +234,7 @@ No. Todo es aritmética local más lecturas/escrituras del almacén: sin llamada
 <details>
 <summary>¿Sirve para un QMS formal o una auditoría de cliente?</summary>
 
-No. El paquete es alpha / parcial / no contabilizado, solo usa datos públicos/sintéticos, no incluye evidencia ni datos de clientes y no promete GA ni producción; `qms.8d_check` y `qms.capa_effectiveness` son revisiones de preparación de solo lectura, no aprobaciones. No pegues datos reales de planta en un issue.
+No. El paquete es alpha / parcial / no contabilizado, solo usa datos públicos/sintéticos, no incluye evidencia ni datos de clientes y no promete GA ni producción; `qms_8d_check` y `qms_capa_effectiveness` son revisiones de preparación de solo lectura, no aprobaciones. No pegues datos reales de planta en un issue.
 
 </details>
 
@@ -245,7 +245,7 @@ No. El paquete es alpha / parcial / no contabilizado, solo usa datos públicos/s
 - **Errores legibles que no filtran datos.** El texto visible es «una frase clara + código de error + siguiente acción»; los detalles técnicos solo van al log. No pegues datos reales de planta en un issue (ver `PRIVACY.md`, `SECURITY.md`).
 - **Frontera de datos.** Solo datos públicos/sintéticos; sin datos de clientes, evidencia de clientes ni telemetría; `EVIDENCE.md` lo deja escrito.
 - **Sin credenciales ni sistemas externos.** No lee credenciales ni se conecta a MES/ERP/nube.
-- **Graduación de escritura.** R1 escriben: `qms.ncr`, `qms.batch_alias`, `qms.capa`, `qms.8d`; R0 solo lectura: `qms.impact`, `qms.8d_check`, `qms.capa_effectiveness`.
+- **Graduación de escritura.** R1 escriben: `qms_ncr`, `qms_batch_alias`, `qms_capa`, `qms_8d`; R0 solo lectura: `qms_impact`, `qms_8d_check`, `qms_capa_effectiveness`.
 
 ## Limitaciones conocidas
 
@@ -256,7 +256,7 @@ No. El paquete es alpha / parcial / no contabilizado, solo usa datos públicos/s
 - **Sin OCR ni manuscritos.** Los registros sin lote o fecha no se pueden procesar; convierte antes los escaneos a CSV a mano.
 - **Tamaño de lote acotado.** Pensado para ~1 MB; divide lotes mayores en varios archivos.
 - **Requiere servicios del host.** El plugin inyecta `tools` y `storageDomain`; un perfil bare sin storage nunca se aplica.
-- **Las revisiones no son aprobaciones.** `qms.8d_check` solo mira disciplinas D1–D8 faltantes o finas y `qms.capa_effectiveness` solo la puerta de estado, el vencimiento y la reincidencia; ninguna sustituye el juicio de causa raíz ni la firma de un ingeniero de calidad.
+- **Las revisiones no son aprobaciones.** `qms_8d_check` solo mira disciplinas D1–D8 faltantes o finas y `qms_capa_effectiveness` solo la puerta de estado, el vencimiento y la reincidencia; ninguna sustituye el juicio de causa raíz ni la firma de un ingeniero de calidad.
 - **La importación duplicada no actualiza.** Un duplicado solo devuelve el id existente; no hay upsert. Actualiza el registro original o cambia `found_date`.
 - **Sin UI.** Superficie de herramientas puramente host: sin mitad de navegador ni interfaz.
 - **Rango de Node estrecho.** Solo `>=24.9.0 <25`.
@@ -265,12 +265,12 @@ No. El paquete es alpha / parcial / no contabilizado, solo usa datos públicos/s
 
 Verificado contra el código (`src/plugin/index.ts`, `src/plugin/tools.ts`, `src/plugin/storage.ts`); el plugin no tiene superficie de colisión con comandos, herramientas, slots, rutas HTTP ni dominios de almacenamiento:
 
-- **Nombres de herramienta con espacio de nombres.** Las 7 herramientas empiezan por `qms.` y no ocupan ningún nombre desnudo de una herramienta integrada u otro plugin.
+- **Nombres de herramienta con espacio de nombres.** Las 7 herramientas empiezan por `qms_` y no ocupan ningún nombre desnudo de una herramienta integrada u otro plugin.
 - **Consume servicios, no ofrece ninguno.** `inject` es solo `['tools', 'storageDomain']`; no registra comandos, slots de cliente, prefijos `webServer` ni claves de servicio.
 - **Dominio de almacenamiento propio.** Usa solo las cuatro tablas de su dominio `qms` v1 (ncrs, aliases, capas, eightd) y no lee ni escribe otros dominios.
 - **Sin mutación global.** No parchea prototipos, no reescribe `process.env` ni reemplaza el fetch global.
 - **Sin eventos de sesión.** El paquete no escribe eventos de sesión `*/applied`; su cadena de evidencia es `evidence_sha256`, `created_at` y la columna de hash de `ACCEPTANCE.csv`.
-- **Herramientas de solo lectura reentrantes.** `qms.impact`, `qms.8d_check` y `qms.capa_effectiveness` no escriben estado y se pueden llamar repetidamente.
+- **Herramientas de solo lectura reentrantes.** `qms_impact`, `qms_8d_check` y `qms_capa_effectiveness` no escriben estado y se pueden llamar repetidamente.
 
 ## Compatibilidad
 
@@ -278,6 +278,7 @@ Verificado contra el código (`src/plugin/index.ts`, `src/plugin/tools.ts`, `src
 |---|---|
 | Harness | `dsh >=0.2.1-rc.3 <0.4.0` (`engines.dsh` de `package.json`; las dependencias de desarrollo y prueba están fijadas a la línea `0.2.1-rc.3`) |
 | Node | `>=24.9.0 <25` |
+| Nombres de herramienta | `qms_*` (guion bajo) desde 0.2.0; los nombres con punto de 0.1.x se eliminan porque el proveedor valida `tools[].name` con `^[a-zA-Z0-9_-]+$` y un punto rechaza todo el array de tools |
 | Servicios del host | Requiere `tools` y `storageDomain` (ver `inject` en `src/plugin/index.ts`) |
 | Plataformas | Donde corra DSH; solo archivos locales, sin mitad de navegador |
 | Modelo | No hace falta; no se llama a ningún modelo |
@@ -306,13 +307,13 @@ Checkers relacionados (cada uno es un paquete aparte; instala solo los que neces
 
 ```sh
 pnpm install --frozen-lockfile
-pnpm build && pnpm lint && pnpm typecheck && pnpm test   # 15 pruebas
+pnpm build && pnpm lint && pnpm typecheck && pnpm test   # 16 pruebas
 node samples/quickstart/run.mjs --check                  # repetición del dorado
 pnpm run gate:sku08                                      # puerta de aceptación (escribe evidence/ y ACCEPTANCE.csv)
 pnpm run pack:check                                      # comprobación del tarball de publicación
 ```
 
-Versión actual `0.1.1`.
+Versión actual `0.2.0`.
 
 Estructura de directorios:
 

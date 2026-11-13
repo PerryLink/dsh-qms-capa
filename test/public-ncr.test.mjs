@@ -20,7 +20,7 @@ test('public MIT redacted NCR ingest', async () => {
     return { plant: 'PHX-DC-01', material: row['Linked Equipment'] ?? 'UNKNOWN', lot: row['NCR ID'], defect_code: row['Issue'].slice(0, 24), found_date: '2026-01-01', quantity: 1, source: 'public-mit' }
   })
   const tools = createTools({ ncrs: new T(), aliases: new T() })
-  const ncr = tools.find((tool) => tool.name === 'qms.ncr')
+  const ncr = tools.find((tool) => tool.name === 'qms_ncr')
   const result = await ncr.execute({ ncrs }, { callId: 'public-ncr' })
   assert.ok(result.ncrs.length >= 3)
   assert.equal(result.duplicates.length, 0)

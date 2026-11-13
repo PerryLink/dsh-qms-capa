@@ -11,25 +11,25 @@
 <path d="M252 208h26" stroke="#8b949e" stroke-width="3"/>
 <path d="M276 201l10 7-10 7" fill="none" stroke="#8b949e" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
 <rect x="286" y="156" width="188" height="104" rx="14" fill="#161b22" stroke="#4B67B4" stroke-width="2"/>
-<text x="380" y="192" fill="#f0f6fc" text-anchor="middle" font-family="ui-monospace,monospace" font-size="15" font-weight="700">qms.ncr</text>
+<text x="380" y="192" fill="#f0f6fc" text-anchor="middle" font-family="ui-monospace,monospace" font-size="15" font-weight="700">qms_ncr</text>
 <text x="380" y="218" fill="#8b949e" text-anchor="middle" font-family="ui-monospace,monospace" font-size="11">dedupe key = 5 fields</text>
 <text x="380" y="238" fill="#8b949e" text-anchor="middle" font-family="ui-monospace,monospace" font-size="11">R1 local write</text>
 <path d="M478 208h26" stroke="#8b949e" stroke-width="3"/>
 <path d="M502 201l10 7-10 7" fill="none" stroke="#8b949e" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
 <rect x="512" y="156" width="188" height="104" rx="14" fill="#161b22" stroke="#30363d" stroke-width="2"/>
-<text x="606" y="192" fill="#f0f6fc" text-anchor="middle" font-family="ui-monospace,monospace" font-size="15" font-weight="700">qms.batch_alias</text>
+<text x="606" y="192" fill="#f0f6fc" text-anchor="middle" font-family="ui-monospace,monospace" font-size="15" font-weight="700">qms_batch_alias</text>
 <text x="606" y="218" fill="#8b949e" text-anchor="middle" font-family="ui-monospace,monospace" font-size="11">L-1001 → LOT-A</text>
 <text x="606" y="238" fill="#8b949e" text-anchor="middle" font-family="ui-monospace,monospace" font-size="11">alias → canonical lot</text>
 <path d="M704 208h26" stroke="#8b949e" stroke-width="3"/>
 <path d="M728 201l10 7-10 7" fill="none" stroke="#8b949e" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
 <rect x="738" y="156" width="188" height="104" rx="14" fill="#161b22" stroke="#30363d" stroke-width="2"/>
-<text x="832" y="192" fill="#f0f6fc" text-anchor="middle" font-family="ui-monospace,monospace" font-size="15" font-weight="700">qms.impact</text>
+<text x="832" y="192" fill="#f0f6fc" text-anchor="middle" font-family="ui-monospace,monospace" font-size="15" font-weight="700">qms_impact</text>
 <text x="832" y="218" fill="#8b949e" text-anchor="middle" font-family="ui-monospace,monospace" font-size="11">stock · intransit</text>
 <text x="832" y="238" fill="#8b949e" text-anchor="middle" font-family="ui-monospace,monospace" font-size="11">affected · recall_hint</text>
 <path d="M930 208h26" stroke="#8b949e" stroke-width="3"/>
 <path d="M954 201l10 7-10 7" fill="none" stroke="#8b949e" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
 <rect x="964" y="156" width="188" height="104" rx="14" fill="#161b22" stroke="#3fb950" stroke-width="2"/>
-<text x="1058" y="192" fill="#f0f6fc" text-anchor="middle" font-family="ui-monospace,monospace" font-size="15" font-weight="700">qms.capa / qms.8d</text>
+<text x="1058" y="192" fill="#f0f6fc" text-anchor="middle" font-family="ui-monospace,monospace" font-size="15" font-weight="700">qms_capa / qms_8d</text>
 <text x="1058" y="218" fill="#8b949e" text-anchor="middle" font-family="ui-monospace,monospace" font-size="11">A7 / B14 / C30 days</text>
 <text x="1058" y="238" fill="#8b949e" text-anchor="middle" font-family="ui-monospace,monospace" font-size="11">D1…D8 evidence</text>
 <path d="M380 260v40" stroke="#4B67B4" stroke-width="2" stroke-dasharray="5 5"/>
@@ -38,5 +38,5 @@
 <rect x="60" y="300" width="1092" height="72" rx="12" fill="#161b22" stroke="#4B67B4" stroke-width="2"/>
 <text x="84" y="330" fill="#f0f6fc" font-family="ui-monospace,monospace" font-size="15" font-weight="700">$DSH_HOME/storages/qms</text>
 <text x="84" y="355" fill="#8b949e" font-family="ui-monospace,monospace" font-size="12">storage domain qms · ncrs · aliases · capas · eightd</text>
-<text x="60" y="418" fill="#8b949e" font-family="ui-monospace,monospace" font-size="13">qms.8d_check · qms.capa_effectiveness → R0 read-only · no network · no model call</text>
+<text x="60" y="418" fill="#8b949e" font-family="ui-monospace,monospace" font-size="13">qms_8d_check · qms_capa_effectiveness → R0 read-only · no network · no model call</text>
 </svg>

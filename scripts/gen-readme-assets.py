@@ -15,7 +15,7 @@ Two figures, both read off the shipped source / samples rather than a template:
   flow 1100x660 — 2 files (light/dark, hand-written SVG)
       Grammar: **spine + fork -> dual-lane confluence -> two state rails ->
       read-only read-back**. It is deliberately not a five-node chain:
-        * a vertical ingest spine (ncrs.csv -> qms.ncr -> qms.batch_alias ->
+        * a vertical ingest spine (ncrs.csv -> qms_ncr -> qms_batch_alias ->
           canonical_lot LOT-A) with a fork that splits 12 new rows from 3
           duplicates, the duplicate branch ending at "existing id, no upsert";
         * the canonical lot is scanned in two snapshot lanes (stock / intransit)
@@ -24,7 +24,7 @@ Two figures, both read off the shipped source / samples rather than a template:
         * two horizontal state rails (CAPA opened..closed, 8D d1..d8..closed)
           drawn as tick track + state labels, each carrying its gate note
           (grade-based due dates, E_QMS_STEP_ILLEGAL on an empty discipline);
-        * two read-only review cards (qms.8d_check, qms.capa_effectiveness)
+        * two read-only review cards (qms_8d_check, qms_capa_effectiveness)
           below the rails, fed by short dashed read arrows -- they read state,
           they write nothing;
         * a storage strip and a boundary card fix the only write target and the
@@ -240,7 +240,7 @@ HERO = {
         tokens=["P1", "M-1001", "L-1001", "D-101", "2026-03-01"],
         dup_chip="dup ×3 · 返回已有编号",
         lanes_label="影响面：库存 / 途中 两份快照",
-        impact_chip="qms.impact · R0",
+        impact_chip="qms_impact · R0",
         lane_stock="stock",
         lane_intransit="intransit",
         stock=["LOT-A", "L-2002", "L-3003"],
@@ -250,7 +250,7 @@ HERO = {
         capa_title="CAPA",
         capa_chips=("A", "opened"),
         capa_lines=["due A+7 · B+14 · C+30 d", "blocker state_not_verified",
-                    "review qms.capa_effectiveness"],
+                    "review qms_capa_effectiveness"],
         eightd_title="8D",
         eightd_chips=("d1",),
         eightd_lines=["missing 8 · thin 0", "d1 has no evidence yet",
@@ -262,7 +262,7 @@ HERO = {
         value1="Dedupe NCRs, resolve lots by alias",
         value2="Scan stock + intransit, then CAPA / 8D",
         sub1="Fixed eight-column CSV plus stock/intransit snapshots.",
-        sub2="Fully local: seven qms.* tools, one storage domain, no network.",
+        sub2="Fully local: seven qms_* tools, one storage domain, no network.",
         meta="15 rows → 12 new / 3 dup · L-1001 → LOT-A · 2 hits · CAPA A · 8D d1",
         foot="Apache-2.0 · PerryLink DSH plugin family · local · no network",
         card_title="Impact field for one NCR",
@@ -271,7 +271,7 @@ HERO = {
         tokens=["P1", "M-1001", "L-1001", "D-101", "2026-03-01"],
         dup_chip="dup ×3 · existing id",
         lanes_label="impact: stock / intransit snapshots",
-        impact_chip="qms.impact · R0",
+        impact_chip="qms_impact · R0",
         lane_stock="stock",
         lane_intransit="intransit",
         stock=["LOT-A", "L-2002", "L-3003"],
@@ -281,7 +281,7 @@ HERO = {
         capa_title="CAPA",
         capa_chips=("A", "opened"),
         capa_lines=["due A+7 · B+14 · C+30 d", "blocker state_not_verified",
-                    "review qms.capa_effectiveness"],
+                    "review qms_capa_effectiveness"],
         eightd_title="8D",
         eightd_chips=("d1",),
         eightd_lines=["missing 8 · thin 0", "d1 evidence empty",
@@ -591,7 +591,7 @@ def flow(skin: str) -> str:
     g.path("M156 204 v10", stroke=sub, sw=1.6, marker="arr")
 
     g.rect(sx, 218, sw_, 112, fill=card_c, rx=14, stroke=edge, sw=1, shadow=True)
-    g.text(62, 242, "qms.ncr", 13, text, bold=True)
+    g.text(62, 242, "qms_ncr", 13, text, bold=True)
     g.chip(221, 228, "R1", fg=accent, bg=band, size=11)
     g.text(62, 262, "key: 5 fields, all non-empty", 11, faint, max_w=188)
     g.circle(68, 282, 3.6, fill=accent)
@@ -604,7 +604,7 @@ def flow(skin: str) -> str:
     g.path("M96 330 v10", stroke=sub, sw=1.6, marker="arr")
 
     g.rect(sx, 342, sw_, 92, fill=card_c, rx=14, stroke=edge, sw=1, shadow=True)
-    g.text(62, 366, "qms.batch_alias", 13, text, bold=True)
+    g.text(62, 366, "qms_batch_alias", 13, text, bold=True)
     g.chip(221, 352, "R1", fg=accent, bg=band, size=11)
     g.chip(62, 374, "L-1001", fg=sub, bg=band, size=13, h=26, stroke=edge)
     g.path("M128 387 h20", stroke=sub, sw=1.6, marker="arr")
@@ -625,7 +625,7 @@ def flow(skin: str) -> str:
     ax0, ax1, ay0, ay1 = 312, 1056, 88, 296
     g.rect(ax0, ay0, ax1 - ax0, ay1 - ay0, fill=card_c, rx=16, stroke=edge,
            sw=1, shadow=True)
-    g.text(332, 116, "qms.impact", 14, text, bold=True)
+    g.text(332, 116, "qms_impact", 14, text, bold=True)
     g.chip(424, 102, "R0", fg=sub, bg=band, size=11)
     g.text(332, 136, "both snapshot lists are scanned for the canonical lot",
            11.5, sub, max_w=740)
@@ -675,8 +675,8 @@ def flow(skin: str) -> str:
            sw=1, shadow=True)
     g.text(332, 348, "two state rails", 14, text, bold=True)
     g.text(470, 348, "advance one state, never skip", 11.5, sub, max_w=250)
-    cw1 = g.chip(740, 334, "qms.capa · R1", fg=accent, bg=band, size=12)
-    g.chip(740 + cw1 + 8, 334, "qms.8d · R1", fg=accent, bg=band, size=12)
+    cw1 = g.chip(740, 334, "qms_capa · R1", fg=accent, bg=band, size=12)
+    g.chip(740 + cw1 + 8, 334, "qms_8d · R1", fg=accent, bg=band, size=12)
 
     def rail(y: float, label: str, states: list[str], track_x0: float,
              track_x1: float, reached: int, note: str) -> None:
@@ -701,10 +701,10 @@ def flow(skin: str) -> str:
 
     # ======================= read-only review cards ========================
     for x0, x1, title, line1, line2 in (
-            (312, 676, "qms.8d_check · R0",
+            (312, 676, "qms_8d_check · R0",
              "missing 8 · thin 0 · ready_to_close false",
              "thin = evidence under 10 characters"),
-            (688, 1056, "qms.capa_effectiveness · R0",
+            (688, 1056, "qms_capa_effectiveness · R0",
              "blockers [state_not_verified] · ready false",
              "state gate · overdue · recurrence")):
         g.rect(x0, 504, x1 - x0, 82, fill=card_c, rx=14, stroke=edge, sw=1,
@@ -734,8 +734,8 @@ def flow(skin: str) -> str:
         raise SystemExit("FATAL: flow text overflow: " + "; ".join(g.overflows))
 
     aria = ("dsh-qms-capa structure: a vertical ingest spine (ncrs.csv with its "
-            "eight columns, qms.ncr splitting 12 new rows from 3 duplicates "
-            "that keep their existing id, qms.batch_alias turning L-1001 into "
+            "eight columns, qms_ncr splitting 12 new rows from 3 duplicates "
+            "that keep their existing id, qms_batch_alias turning L-1001 into "
             "the canonical lot LOT-A) feeds an impact plate where the stock and "
             "intransit snapshot lanes converge on one verdict (affected 2, "
             "recall_hint true, evidence_sha256), with a dashed gate for a "

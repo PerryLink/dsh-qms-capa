@@ -5,7 +5,7 @@
 
 ## 0.1.0-alpha.1 — CAPA (2026-10-31)
 
-- Added `qms.capa` open/classify/advance; alpha.1 latest/next.
+- Added `qms_capa` open/classify/advance; alpha.1 latest/next.
 - Tests 4/4; gate 5 rows; public MIT NCR sample remains.
 
 ### latest moved
@@ -13,4 +13,4 @@
 
 ## 0.1.0-alpha.2 — 8D (2026-10-31)
 
-- Added `qms.8d` D1–D8 evidence/state; 6 gate rows.
+- Added `qms_8d` D1–D8 evidence/state; 6 gate rows.
