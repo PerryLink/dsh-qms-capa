@@ -14,7 +14,7 @@ async function setup({ recurrence = false, dueDate = '2026-12-31', state = 'open
 
 test('an opened CAPA is not closeable', async () => {
   const by = await setup()
-  const r = await by['qms.capa_effectiveness'].execute({ capa_id: 'C1' }, { callId: 'c' })
+  const r = await by['qms_capa_effectiveness'].execute({ capa_id: 'C1' }, { callId: 'c' })
   assert.equal(r.ready_to_close, false)
   assert.ok(r.blockers.includes('state_not_verified'))
   assert.equal(r.overdue, false)
@@ -22,23 +22,23 @@ test('an opened CAPA is not closeable', async () => {
 
 test('a verified CAPA is closeable and a past due date is overdue', async () => {
   const ok = await setup({ state: 'verified' })
-  const r = await ok['qms.capa_effectiveness'].execute({ capa_id: 'C1' }, { callId: 'c' })
+  const r = await ok['qms_capa_effectiveness'].execute({ capa_id: 'C1' }, { callId: 'c' })
   assert.equal(r.ready_to_close, true)
   assert.deepEqual(r.blockers, [])
   const late = await setup({ state: 'corrective', dueDate: '2020-01-01' })
-  const lateRes = await late['qms.capa_effectiveness'].execute({ capa_id: 'C1' }, { callId: 'c' })
+  const lateRes = await late['qms_capa_effectiveness'].execute({ capa_id: 'C1' }, { callId: 'c' })
   assert.equal(lateRes.overdue, true)
   assert.ok(lateRes.blockers.includes('overdue'))
 })
 
 test('a recurring NCR blocks closure until effectiveness is verified', async () => {
   const by = await setup({ recurrence: true, state: 'corrective' })
-  const r = await by['qms.capa_effectiveness'].execute({ capa_id: 'C1' }, { callId: 'c' })
+  const r = await by['qms_capa_effectiveness'].execute({ capa_id: 'C1' }, { callId: 'c' })
   assert.ok(r.blockers.includes('recurrence_needs_effectiveness'))
   assert.equal(r.ready_to_close, false)
 })
 
 test('unknown CAPA is rejected', async () => {
   const by = await setup()
-  await assert.rejects(() => by['qms.capa_effectiveness'].execute({ capa_id: 'nope' }, { callId: 'c' }), (error) => error.code === 'E_QMS_RECORD_NOT_FOUND' && /｜下一步：/.test(error.message))
+  await assert.rejects(() => by['qms_capa_effectiveness'].execute({ capa_id: 'nope' }, { callId: 'c' }), (error) => error.code === 'E_QMS_RECORD_NOT_FOUND' && /｜下一步：/.test(error.message))
 })

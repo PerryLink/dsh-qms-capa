@@ -35,11 +35,11 @@ dsh plugin --profile <name> add dsh-qms-capa
 
 ## 它是什么
 
-`dsh-qms-capa` 在 DeepSeek Harness 里跑一条纯本地的质量事件流水线：把 NCR 不良记录去重入库（判据是 `plant`+`material`+`lot`+`defect_code`+`found_date` 五字段完全相同），把批次别名解析到正式批号，对照库存/途中快照评估影响面，再开出 CAPA 或 8D 并按状态推进。工具名就是稳定 API（`qms.*`），按「入库 → 别名 → 影响面 → CAPA/8D → 复核」调用即可。输入与输出都留在本机，没有联网请求，也没有模型调用。
+`dsh-qms-capa` 在 DeepSeek Harness 里跑一条纯本地的质量事件流水线：把 NCR 不良记录去重入库（判据是 `plant`+`material`+`lot`+`defect_code`+`found_date` 五字段完全相同），把批次别名解析到正式批号，对照库存/途中快照评估影响面，再开出 CAPA 或 8D 并按状态推进。工具名就是稳定 API（`qms_*`），按「入库 → 别名 → 影响面 → CAPA/8D → 复核」调用即可。输入与输出都留在本机，没有联网请求，也没有模型调用。
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/dsh-qms-capa-flow-v5-dark.svg">
-  <img src="docs/assets/dsh-qms-capa-flow-v5-light.svg" width="100%" alt="dsh-qms-capa 结构图：左侧纵向入库脊柱——八列 ncrs.csv、qms.ncr 把 12 条新增与 3 条重复分开（重复只返回已有编号）、qms.batch_alias 把 L-1001 归到正式批号 LOT-A；右侧上方是影响面，库存与途中两条快照通道扫描同一正式批号后汇成一个结论（affected 2、recall_hint true、evidence_sha256），缺任一份快照即以虚线边界报 E_QMS_IMPACT_INCOMPLETE；中间是 CAPA 与 8D 两条状态轨，标出等级到期 A+7/B+14/C+30 天与当前 discipline 为空即拒绝推进；下方两张只读复核卡沿虚线读回状态而不写库，底部是唯一落点 storage domain qms 与本地边界">
+  <img src="docs/assets/dsh-qms-capa-flow-v5-light.svg" width="100%" alt="dsh-qms-capa 结构图：左侧纵向入库脊柱——八列 ncrs.csv、qms_ncr 把 12 条新增与 3 条重复分开（重复只返回已有编号）、qms_batch_alias 把 L-1001 归到正式批号 LOT-A；右侧上方是影响面，库存与途中两条快照通道扫描同一正式批号后汇成一个结论（affected 2、recall_hint true、evidence_sha256），缺任一份快照即以虚线边界报 E_QMS_IMPACT_INCOMPLETE；中间是 CAPA 与 8D 两条状态轨，标出等级到期 A+7/B+14/C+30 天与当前 discipline 为空即拒绝推进；下方两张只读复核卡沿虚线读回状态而不写库，底部是唯一落点 storage domain qms 与本地边界">
 </picture>
 
 **适合**：几十到几百行、字段固定的 NCR 台账（CSV）；要在开 CAPA/8D 前先确认重复单和受影响批次。**不适合**：没有批号或日期的手写记录；直连 MES/ERP（本包不连外部系统）；替代质量工程师做根因判断。
@@ -57,7 +57,7 @@ dsh plugin --profile <name> add dsh-qms-capa
 1. **安装**（四选一；npm 是推荐通道）：
 
    ```sh
-   # npm（推荐，已发布 0.1.1）
+   # npm（推荐，已发布 0.2.0）
    dsh plugin --profile <name> add dsh-qms-capa
    # git 通道（跟随 main；lib/ 是构建产物、不入库，需在 checkout 内先 pnpm install && pnpm build）
    dsh plugin --profile <name> add github:PerryLink/dsh-qms-capa
@@ -103,25 +103,25 @@ quickstart ok
 
 ## 核心能力
 
-- **NCR 入库与去重** —— `qms.ncr` 先校验 `plant`/`material`/`lot`/`defect_code`/`found_date` 五列非空，再按这五字段拼成的 key 去重；重复行只返回已有 `ncr_id`，不覆盖、不改数量。单次调用返回新增编号、重复编号与 `field_f1`。
-- **批次别名** —— `qms.batch_alias` 把 MES 侧的临时批号（如 `L-1001`）指向正式批号（如 `LOT-A`）；`set` 必须给 `canonical`，`resolve` 未命中时原样返回。影响面评估会自动沿别名归并。
-- **影响面评估** —— `qms.impact` 同时读库存 `stock` 与途中 `intransit` 两个批次清单，按正式批号归并后返回 `affected`、`recall_hint`，并把快照 JSON 的 SHA-256 记为 `evidence_sha256`。缺任一份快照直接报 `E_QMS_IMPACT_INCOMPLETE`。
-- **CAPA 生命周期** —— `qms.capa` 支持 `open`/`classify`/`advance`；等级 A/B/C 分别把 `due_date` 定在 7/14/30 天后，状态按 `opened → contained → root_cause → corrective → verified → closed` 推进。`classify` 会按新等级重算期限。
-- **8D 与证据门槛** —— `qms.8d` 支持 `open`/`update`/`advance`，按 D1–D8 记录每步证据；当前 discipline 没有内容时拒绝推进（`E_QMS_STEP_ILLEGAL`），不会跳步。
-- **只读复核** —— `qms.8d_check` 报缺失/过薄的 D1–D8 与 `ready_to_close`；`qms.capa_effectiveness` 报状态门槛、超期与重复单阻断项。两者都不写库、不做批准。
+- **NCR 入库与去重** —— `qms_ncr` 先校验 `plant`/`material`/`lot`/`defect_code`/`found_date` 五列非空，再按这五字段拼成的 key 去重；重复行只返回已有 `ncr_id`，不覆盖、不改数量。单次调用返回新增编号、重复编号与 `field_f1`。
+- **批次别名** —— `qms_batch_alias` 把 MES 侧的临时批号（如 `L-1001`）指向正式批号（如 `LOT-A`）；`set` 必须给 `canonical`，`resolve` 未命中时原样返回。影响面评估会自动沿别名归并。
+- **影响面评估** —— `qms_impact` 同时读库存 `stock` 与途中 `intransit` 两个批次清单，按正式批号归并后返回 `affected`、`recall_hint`，并把快照 JSON 的 SHA-256 记为 `evidence_sha256`。缺任一份快照直接报 `E_QMS_IMPACT_INCOMPLETE`。
+- **CAPA 生命周期** —— `qms_capa` 支持 `open`/`classify`/`advance`；等级 A/B/C 分别把 `due_date` 定在 7/14/30 天后，状态按 `opened → contained → root_cause → corrective → verified → closed` 推进。`classify` 会按新等级重算期限。
+- **8D 与证据门槛** —— `qms_8d` 支持 `open`/`update`/`advance`，按 D1–D8 记录每步证据；当前 discipline 没有内容时拒绝推进（`E_QMS_STEP_ILLEGAL`），不会跳步。
+- **只读复核** —— `qms_8d_check` 报缺失/过薄的 D1–D8 与 `ready_to_close`；`qms_capa_effectiveness` 报状态门槛、超期与重复单阻断项。两者都不写库、不做批准。
 - **全程本地** —— 不联网、不调模型、不上传；只读写自己的 storage 域 `qms`，不改你给的 CSV。
 
 ### 工具面
 
 | 工具 | 用途 | 风险 |
 |---|---|---|
-| `qms.ncr` | 导入并去重 NCR 行（plant/material/lot/defect_code/found_date） | R1 local write |
-| `qms.batch_alias` | 设置/解析批次别名到正式批号 | R1 local write |
-| `qms.impact` | 对照库存/途中快照评估受影响批次，给出召回提示 | R0 |
-| `qms.capa` | 创建/分级/推进 CAPA，按等级算到期日 | R1 local write |
-| `qms.8d` | 跟踪 D1–D8 证据与状态 | R1 local write |
-| `qms.8d_check` | 8D 完整性预检：缺失/过薄 discipline 与 `ready_to_close` | R0 |
-| `qms.capa_effectiveness` | CAPA 关闭就绪度复核：状态门槛、超期、重复单阻断 | R0 |
+| `qms_ncr` | 导入并去重 NCR 行（plant/material/lot/defect_code/found_date） | R1 local write |
+| `qms_batch_alias` | 设置/解析批次别名到正式批号 | R1 local write |
+| `qms_impact` | 对照库存/途中快照评估受影响批次，给出召回提示 | R0 |
+| `qms_capa` | 创建/分级/推进 CAPA，按等级算到期日 | R1 local write |
+| `qms_8d` | 跟踪 D1–D8 证据与状态 | R1 local write |
+| `qms_8d_check` | 8D 完整性预检：缺失/过薄 discipline 与 `ready_to_close` | R0 |
+| `qms_capa_effectiveness` | CAPA 关闭就绪度复核：状态门槛、超期、重复单阻断 | R0 |
 
 R0 = 只读；R1 = 只写本机 storage 域 `qms`，从不联网。
 
@@ -206,7 +206,7 @@ R0 = 只读；R1 = 只写本机 storage 域 `qms`，从不联网。
 <details>
 <summary>数据存在哪？会改我的台账吗？</summary>
 
-库记录写进 storage domain `qms`，默认根目录 `$DSH_HOME/storages/qms/`（NCR、别名、CAPA、8D 四张表）。你给的 CSV 只读不改；没有任何上传，也没有遥测。原文件里的行只有在被 `qms.ncr` 导入后才进库。
+库记录写进 storage domain `qms`，默认根目录 `$DSH_HOME/storages/qms/`（NCR、别名、CAPA、8D 四张表）。你给的 CSV 只读不改；没有任何上传，也没有遥测。原文件里的行只有在被 `qms_ncr` 导入后才进库。
 
 </details>
 
@@ -234,7 +234,7 @@ R0 = 只读；R1 = 只写本机 storage 域 `qms`，从不联网。
 <details>
 <summary>能用于正式 QMS 或客户审核吗？</summary>
 
-不能。本包是 alpha / partial / not counted，只用公开/合成数据，没有客户证据、客户数据，也不作 GA 或生产可用声明；`qms.8d_check` 与 `qms.capa_effectiveness` 只是只读的就绪度复核，不是批准。真实工厂数据不要贴进 issue。
+不能。本包是 alpha / partial / not counted，只用公开/合成数据，没有客户证据、客户数据，也不作 GA 或生产可用声明；`qms_8d_check` 与 `qms_capa_effectiveness` 只是只读的就绪度复核，不是批准。真实工厂数据不要贴进 issue。
 
 </details>
 
@@ -245,7 +245,7 @@ R0 = 只读；R1 = 只写本机 storage 域 `qms`，从不联网。
 - **错误可读且不泄密。** 面向用户的文本是「一句人话 + 错误码 + 下一步」，技术细节只进日志；真实工厂数据不要贴进 issue（见 `PRIVACY.md`、`SECURITY.md`）。
 - **数据边界。** 只用公开/合成数据；不含客户数据、客户证据或遥测；`EVIDENCE.md` 把这条写死。
 - **无凭据、无外部系统。** 不读凭据、不连 MES/ERP/云服务。
-- **写面分级。** R1 写工具：`qms.ncr`、`qms.batch_alias`、`qms.capa`、`qms.8d`；R0 只读：`qms.impact`、`qms.8d_check`、`qms.capa_effectiveness`。
+- **写面分级。** R1 写工具：`qms_ncr`、`qms_batch_alias`、`qms_capa`、`qms_8d`；R0 只读：`qms_impact`、`qms_8d_check`、`qms_capa_effectiveness`。
 
 ## 已知限制
 
@@ -256,7 +256,7 @@ R0 = 只读；R1 = 只写本机 storage 域 `qms`，从不联网。
 - **无 OCR、无手写识别。** 没有批号或日期的手写记录处理不了；扫描件请先人工转成 CSV。
 - **单批规模有限。** 按 ≤ 1 MB 设计；更大批量请拆文件分批导入。
 - **需要宿主服务。** 插件 `inject` 了 `tools` 与 `storageDomain`；bare profile 不组合 storage 时不会 apply。
-- **复核不是批准。** `qms.8d_check` 只看 D1–D8 是否缺失/过薄，`qms.capa_effectiveness` 只看状态门槛、超期与重复单；两者都不替代质量工程师的根因判断或签署。
+- **复核不是批准。** `qms_8d_check` 只看 D1–D8 是否缺失/过薄，`qms_capa_effectiveness` 只看状态门槛、超期与重复单；两者都不替代质量工程师的根因判断或签署。
 - **重复导入不更新。** 重复单只返回已有编号，不做 upsert；要改数量请在原记录上更新或换 `found_date`。
 - **无 UI。** 纯 host 工具面，没有浏览器半，也没有界面。
 - **Node 区间窄。** 只支持 `>=24.9.0 <25`。
@@ -265,12 +265,12 @@ R0 = 只读；R1 = 只写本机 storage 域 `qms`，从不联网。
 
 按源码核对（`src/plugin/index.ts`、`src/plugin/tools.ts`、`src/plugin/storage.ts`），本插件与命令、工具、slot、HTTP 路由、storage 域均无冲突面：
 
-- **工具名带命名空间。** 7 个工具全部以 `qms.` 开头，不占用内置工具或其他插件的裸名。
+- **工具名带命名空间。** 7 个工具全部以 `qms_` 开头，不占用内置工具或其他插件的裸名。
 - **只消费、不提供服务。** `inject` 只有 `['tools', 'storageDomain']`；不注册命令、客户端 slot、`webServer` 前缀或服务键。
 - **独立 storage 域。** 只用自建 `qms` v1 域的四张表（ncrs、aliases、capas、eightd），不读写其他域。
 - **无全局改写。** 不改原型、不改写 `process.env`、不替换全局 fetch。
 - **无会话事件。** 本包不写 `*/applied` 会话事件；证据链是 `evidence_sha256`、`created_at` 与 `ACCEPTANCE.csv` 的哈希列。
-- **只读工具可重入。** `qms.impact`、`qms.8d_check`、`qms.capa_effectiveness` 不写状态，可安全重复调用。
+- **只读工具可重入。** `qms_impact`、`qms_8d_check`、`qms_capa_effectiveness` 不写状态，可安全重复调用。
 
 ## 兼容性
 
@@ -278,6 +278,7 @@ R0 = 只读；R1 = 只写本机 storage 域 `qms`，从不联网。
 |---|---|
 | Harness | `dsh >=0.2.1-rc.3 <0.4.0`（`package.json` 的 `engines.dsh`；开发与测试依赖固定在 `0.2.1-rc.3` 线） |
 | Node | `>=24.9.0 <25` |
+| 工具名 | 0.2.0 起为 `qms_*`（下划线）；0.1.x 的点号名已移除——provider 对 `tools[].name` 校验 `^[a-zA-Z0-9_-]+$`，点号会让整个 tools 数组被拒 |
 | 宿主服务 | 需组合 `tools` 与 `storageDomain`（见 `src/plugin/index.ts` 的 `inject`） |
 | 平台 | 任何 DSH 可运行处；纯本地文件，无浏览器半 |
 | 模型 | 不需要；不调用模型 |
@@ -306,13 +307,13 @@ R0 = 只读；R1 = 只写本机 storage 域 `qms`，从不联网。
 
 ```sh
 pnpm install --frozen-lockfile
-pnpm build && pnpm lint && pnpm typecheck && pnpm test   # 15 项测试
+pnpm build && pnpm lint && pnpm typecheck && pnpm test   # 16 项测试
 node samples/quickstart/run.mjs --check                  # 金标复跑
 pnpm run gate:sku08                                      # 验收门禁（写 evidence/ 与 ACCEPTANCE.csv）
 pnpm run pack:check                                      # 发布 tarball 内容检查
 ```
 
-当前版本 `0.1.1`。
+当前版本 `0.2.0`。
 
 目录布局：
 

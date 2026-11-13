@@ -1,5 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="660" viewBox="0 0 1100 660" role="img" aria-label="dsh-qms-capa structure: a vertical ingest spine (ncrs.csv with its eight columns, qms.ncr splitting 12 new rows from 3 duplicates that keep their existing id, qms.batch_alias turning L-1001 into the canonical lot LOT-A) feeds an impact plate where the stock and intransit snapshot lanes converge on one verdict (affected 2, recall_hint true, evidence_sha256), with a dashed gate for a missing snapshot; below, two state rails (CAPA opened to closed, 8D d1 to closed) carry the grade-based due dates and the empty-discipline gate; two read-only review cards read those rails back without writing, and every R1 write lands in the local qms storage domain, with no network and no model call">
-<title>dsh-qms-capa structure: a vertical ingest spine (ncrs.csv with its eight columns, qms.ncr splitting 12 new rows from 3 duplicates that keep their existing id, qms.batch_alias turning L-1001 into the canonical lot LOT-A) feeds an impact plate where the stock and intransit snapshot lanes converge on one verdict (affected 2, recall_hint true, evidence_sha256), with a dashed gate for a missing snapshot; below, two state rails (CAPA opened to closed, 8D d1 to closed) carry the grade-based due dates and the empty-discipline gate; two read-only review cards read those rails back without writing, and every R1 write lands in the local qms storage domain, with no network and no model call</title>
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="660" viewBox="0 0 1100 660" role="img" aria-label="dsh-qms-capa structure: a vertical ingest spine (ncrs.csv with its eight columns, qms_ncr splitting 12 new rows from 3 duplicates that keep their existing id, qms_batch_alias turning L-1001 into the canonical lot LOT-A) feeds an impact plate where the stock and intransit snapshot lanes converge on one verdict (affected 2, recall_hint true, evidence_sha256), with a dashed gate for a missing snapshot; below, two state rails (CAPA opened to closed, 8D d1 to closed) carry the grade-based due dates and the empty-discipline gate; two read-only review cards read those rails back without writing, and every R1 write lands in the local qms storage domain, with no network and no model call">
+<title>dsh-qms-capa structure: a vertical ingest spine (ncrs.csv with its eight columns, qms_ncr splitting 12 new rows from 3 duplicates that keep their existing id, qms_batch_alias turning L-1001 into the canonical lot LOT-A) feeds an impact plate where the stock and intransit snapshot lanes converge on one verdict (affected 2, recall_hint true, evidence_sha256), with a dashed gate for a missing snapshot; below, two state rails (CAPA opened to closed, 8D d1 to closed) carry the grade-based due dates and the empty-discipline gate; two read-only review cards read those rails back without writing, and every R1 write lands in the local qms storage domain, with no network and no model call</title>
 <defs>
   <linearGradient id="bg" x1="0" y1="0" x2="0" y2="660" gradientUnits="userSpaceOnUse">
     <stop offset="0" stop-color="#131a2a"/>
@@ -28,7 +28,7 @@
 <text x="62" y="190" fill="#737b8d" font-family="'Consolas','SFMono-Regular','Menlo',ui-monospace,monospace" font-size="11">recurrence_of</text>
 <path d="M156 204 v10" fill="none" stroke="#a8b1c4" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arr)"/>
 <rect x="44" y="218" width="224" height="112" rx="14" fill="#1b2231" stroke="#2e374b" stroke-width="1" filter="url(#soft)"/>
-<text x="62" y="242" fill="#f0f3f9" font-family="'Consolas','SFMono-Regular','Menlo',ui-monospace,monospace" font-size="13" font-weight="700">qms.ncr</text>
+<text x="62" y="242" fill="#f0f3f9" font-family="'Consolas','SFMono-Regular','Menlo',ui-monospace,monospace" font-size="13" font-weight="700">qms_ncr</text>
 <rect x="221" y="228" width="28" height="20" rx="10" fill="#202839"/>
 <text x="229" y="241.96" fill="#8496f5" font-family="'Consolas','SFMono-Regular','Menlo',ui-monospace,monospace" font-size="11" font-weight="700">R1</text>
 <text x="62" y="262" fill="#737b8d" font-family="'Consolas','SFMono-Regular','Menlo',ui-monospace,monospace" font-size="11">key: 5 fields, all non-empty</text>
@@ -41,7 +41,7 @@
 <text x="62" y="326" fill="#a8b1c4" font-family="'Consolas','SFMono-Regular','Menlo',ui-monospace,monospace" font-size="11">no upsert · quantity kept</text>
 <path d="M96 330 v10" fill="none" stroke="#a8b1c4" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arr)"/>
 <rect x="44" y="342" width="224" height="92" rx="14" fill="#1b2231" stroke="#2e374b" stroke-width="1" filter="url(#soft)"/>
-<text x="62" y="366" fill="#f0f3f9" font-family="'Consolas','SFMono-Regular','Menlo',ui-monospace,monospace" font-size="13" font-weight="700">qms.batch_alias</text>
+<text x="62" y="366" fill="#f0f3f9" font-family="'Consolas','SFMono-Regular','Menlo',ui-monospace,monospace" font-size="13" font-weight="700">qms_batch_alias</text>
 <rect x="221" y="352" width="28" height="20" rx="10" fill="#202839"/>
 <text x="229" y="365.96" fill="#8496f5" font-family="'Consolas','SFMono-Regular','Menlo',ui-monospace,monospace" font-size="11" font-weight="700">R1</text>
 <rect x="62" y="374" width="58" height="26" rx="13" fill="#202839" stroke="#2e374b" stroke-width="1"/>
@@ -57,7 +57,7 @@
 <text x="250" y="474" fill="#1b2231" font-family="'Consolas','SFMono-Regular','Menlo',ui-monospace,monospace" font-size="11" text-anchor="end">canonical_lot</text>
 <path d="M268 468 h20 V190 h129" fill="none" stroke="#8496f5" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrA)"/>
 <rect x="312" y="88" width="744" height="208" rx="16" fill="#1b2231" stroke="#2e374b" stroke-width="1" filter="url(#soft)"/>
-<text x="332" y="116" fill="#f0f3f9" font-family="'Consolas','SFMono-Regular','Menlo',ui-monospace,monospace" font-size="14" font-weight="700">qms.impact</text>
+<text x="332" y="116" fill="#f0f3f9" font-family="'Consolas','SFMono-Regular','Menlo',ui-monospace,monospace" font-size="14" font-weight="700">qms_impact</text>
 <rect x="424" y="102" width="28" height="20" rx="10" fill="#202839"/>
 <text x="432" y="115.96" fill="#a8b1c4" font-family="'Consolas','SFMono-Regular','Menlo',ui-monospace,monospace" font-size="11" font-weight="700">R0</text>
 <text x="332" y="136" fill="#a8b1c4" font-family="'Consolas','SFMono-Regular','Menlo',ui-monospace,monospace" font-size="11.5">both snapshot lists are scanned for the canonical lot</text>
@@ -91,9 +91,9 @@
 <text x="332" y="348" fill="#f0f3f9" font-family="'Consolas','SFMono-Regular','Menlo',ui-monospace,monospace" font-size="14" font-weight="700">two state rails</text>
 <text x="470" y="348" fill="#a8b1c4" font-family="'Consolas','SFMono-Regular','Menlo',ui-monospace,monospace" font-size="11.5">advance one state, never skip</text>
 <rect x="740" y="334" width="107" height="20" rx="10" fill="#202839"/>
-<text x="748" y="348.32" fill="#8496f5" font-family="'Consolas','SFMono-Regular','Menlo',ui-monospace,monospace" font-size="12" font-weight="700">qms.capa · R1</text>
+<text x="748" y="348.32" fill="#8496f5" font-family="'Consolas','SFMono-Regular','Menlo',ui-monospace,monospace" font-size="12" font-weight="700">qms_capa · R1</text>
 <rect x="855" y="334" width="93" height="20" rx="10" fill="#202839"/>
-<text x="863" y="348.32" fill="#8496f5" font-family="'Consolas','SFMono-Regular','Menlo',ui-monospace,monospace" font-size="12" font-weight="700">qms.8d · R1</text>
+<text x="863" y="348.32" fill="#8496f5" font-family="'Consolas','SFMono-Regular','Menlo',ui-monospace,monospace" font-size="12" font-weight="700">qms_8d · R1</text>
 <text x="332" y="380" fill="#f0f3f9" font-family="'Consolas','SFMono-Regular','Menlo',ui-monospace,monospace" font-size="13" font-weight="700">CAPA</text>
 <line x1="382" y1="374" x2="1010" y2="374" stroke="#2e374b" stroke-width="2" stroke-linecap="round"/>
 <line x1="382" y1="369" x2="382" y2="379" stroke="#2e374b" stroke-width="1.6" stroke-linecap="round"/>
@@ -137,12 +137,12 @@
 <text x="332" y="482" fill="#737b8d" font-family="'Consolas','SFMono-Regular','Menlo',ui-monospace,monospace" font-size="11">current discipline empty → E_QMS_STEP_ILLEGAL</text>
 <rect x="312" y="504" width="364" height="82" rx="14" fill="#1b2231" stroke="#2e374b" stroke-width="1" filter="url(#soft)"/>
 <rect x="330" y="518" width="135" height="20" rx="10" fill="#202839" stroke="#2e374b" stroke-width="1"/>
-<text x="338" y="532.32" fill="#a8b1c4" font-family="'Consolas','SFMono-Regular','Menlo',ui-monospace,monospace" font-size="12" font-weight="700">qms.8d_check · R0</text>
+<text x="338" y="532.32" fill="#a8b1c4" font-family="'Consolas','SFMono-Regular','Menlo',ui-monospace,monospace" font-size="12" font-weight="700">qms_8d_check · R0</text>
 <text x="330" y="558" fill="#f0f3f9" font-family="'Consolas','SFMono-Regular','Menlo',ui-monospace,monospace" font-size="11.5">missing 8 · thin 0 · ready_to_close false</text>
 <text x="330" y="576" fill="#737b8d" font-family="'Consolas','SFMono-Regular','Menlo',ui-monospace,monospace" font-size="11">thin = evidence under 10 characters</text>
 <rect x="688" y="504" width="368" height="82" rx="14" fill="#1b2231" stroke="#2e374b" stroke-width="1" filter="url(#soft)"/>
 <rect x="706" y="518" width="205" height="20" rx="10" fill="#202839" stroke="#2e374b" stroke-width="1"/>
-<text x="714" y="532.32" fill="#a8b1c4" font-family="'Consolas','SFMono-Regular','Menlo',ui-monospace,monospace" font-size="12" font-weight="700">qms.capa_effectiveness · R0</text>
+<text x="714" y="532.32" fill="#a8b1c4" font-family="'Consolas','SFMono-Regular','Menlo',ui-monospace,monospace" font-size="12" font-weight="700">qms_capa_effectiveness · R0</text>
 <text x="706" y="558" fill="#f0f3f9" font-family="'Consolas','SFMono-Regular','Menlo',ui-monospace,monospace" font-size="11.5">blockers [state_not_verified] · ready false</text>
 <text x="706" y="576" fill="#737b8d" font-family="'Consolas','SFMono-Regular','Menlo',ui-monospace,monospace" font-size="11">state gate · overdue · recurrence</text>
 <path d="M494 492 v8" fill="none" stroke="#737b8d" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="3 3" marker-end="url(#arrF)"/>
