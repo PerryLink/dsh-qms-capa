@@ -153,6 +153,10 @@ O registro de aceitação está em `ACCEPTANCE.csv`: todas as 9 verificações p
 | SKU-08-A08 | Revisão de eficácia da CAPA | 1 | 1 | true | public/synthetic | false |
 | PS1-QS01 | Amostra de quickstart igual ao golden | 1/1 | 1 | true | synthetic/quickstart | true |
 
+![Saída real de terminal do dsh-qms-capa em movimento: 15 linhas NCR sintéticas → 12 novas / 3 duplicadas, alias L-1001 → LOT-A, CAPA grau A aberta e o 8D em D1](docs/assets/dsh-qms-capa-demo.gif)
+
+*Reprodução animada do mesmo comando real (`node samples/quickstart/run.mjs` executado novamente em 2026-11-21; a saída corresponde ao arquivo golden).*
+
 ![Saída real de terminal do quickstart do dsh-qms-capa: 15 linhas sintéticas de NCR → 12 novas / 3 duplicadas, alias L-1001 → LOT-A, uma CAPA de grau A aberta e o 8D em D1](docs/assets/quickstart.png)
 
 *Capturada da execução real de `node samples/quickstart/run.mjs --check` (2026-11-02); o conteúdo confere com o arquivo-ouro.*

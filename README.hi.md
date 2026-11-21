@@ -153,6 +153,10 @@ R0 = केवल पढ़ना; R1 = केवल स्थानीय `qms`
 | SKU-08-A08 | CAPA प्रभावशीलता समीक्षा | 1 | 1 | true | public/synthetic | false |
 | PS1-QS01 | quickstart नमूना गोल्डन से मेल | 1/1 | 1 | true | synthetic/quickstart | true |
 
+![dsh-qms-capa का असली टर्मिनल आउटपुट, एनिमेटेड: 15 सिंथेटिक NCR पंक्तियाँ → 12 नई / 3 डुप्लिकेट, alias L-1001 → LOT-A, ग्रेड-A CAPA खुली और 8D D1 पर](docs/assets/dsh-qms-capa-demo.gif)
+
+*उसी असली कमांड का एनिमेटेड टर्मिनल रीप्ले (2026-11-21 को `node samples/quickstart/run.mjs` दोबारा चलाया गया; आउटपुट गोल्डन फ़ाइल से मेल खाता है)।*
+
 ![dsh-qms-capa quickstart का वास्तविक टर्मिनल आउटपुट: 15 सिंथेटिक NCR पंक्तियाँ → 12 नई / 3 डुप्लिकेट, alias L-1001 → LOT-A, ग्रेड-A CAPA खुली और 8D D1 पर](docs/assets/quickstart.png)
 
 *वास्तविक `node samples/quickstart/run.mjs --check` टर्मिनल रन (2026-11-02) से कैप्चर; सामग्री गोल्डन फ़ाइल से मेल खाती है।*

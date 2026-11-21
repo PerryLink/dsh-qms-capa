@@ -153,6 +153,10 @@ R0 = 只读；R1 = 只写本机 storage 域 `qms`，从不联网。
 | SKU-08-A08 | CAPA 有效性复核 | 1 | 1 | true | public/synthetic | false |
 | PS1-QS01 | quickstart 样例与金标一致 | 1/1 | 1 | true | synthetic/quickstart | true |
 
+![dsh-qms-capa quickstart 真实运行输出的终端动图：15 行合成 NCR → 12 新增 / 3 重复，别名 L-1001 → LOT-A，CAPA 等级 A 开单、8D 停在 D1](docs/assets/dsh-qms-capa-demo.gif)
+
+*动图是同一条真实命令的终端回放（2026-11-21 复跑 `node samples/quickstart/run.mjs`，输出与金标一致）。*
+
 ![dsh-qms-capa quickstart 真实运行输出：15 行合成 NCR → 12 新增 / 3 重复，别名 L-1001 → LOT-A，CAPA A 开单、8D 停在 D1](docs/assets/quickstart.png)
 
 *截图是 `node samples/quickstart/run.mjs --check` 的真实终端捕获（2026-11-02），内容与金标一致。*

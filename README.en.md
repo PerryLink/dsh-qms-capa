@@ -153,6 +153,10 @@ The acceptance record lives in `ACCEPTANCE.csv`: all 9 public/synthetic checks a
 | SKU-08-A08 | CAPA effectiveness review | 1 | 1 | true | public/synthetic | false |
 | PS1-QS01 | Quickstart sample matches the golden file | 1/1 | 1 | true | synthetic/quickstart | true |
 
+![dsh-qms-capa quickstart real terminal output, animated: 15 synthetic NCR rows → 12 new / 3 duplicates, alias L-1001 → LOT-A, a grade-A CAPA opened and the 8D at D1](docs/assets/dsh-qms-capa-demo.gif)
+
+*Animated terminal replay of the same real command (re-ran `node samples/quickstart/run.mjs` on 2026-11-21; output matches the golden file).*
+
 ![dsh-qms-capa quickstart real terminal output: 15 synthetic NCR rows → 12 new / 3 duplicates, alias L-1001 → LOT-A, a grade-A CAPA opened and the 8D at D1](docs/assets/quickstart.png)
 
 *Captured from the real `node samples/quickstart/run.mjs --check` terminal run (2026-11-02); the content matches the golden file.*
