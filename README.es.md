@@ -11,6 +11,8 @@
 
 Un plugin local de eventos de calidad para DeepSeek Harness: lee un libro CSV con cabecera fija, deduplica filas, resuelve alias de lotes, evalúa el impacto en stock y en tránsito y avanza el estado de CAPA y D1–D8, sin red ni llamadas a un modelo.
 
+Última verificación: DeepSeek Harness `dsh-v0.2.3-alpha.1` (2026-11-22).
+
 [Instalar](#instalación-en-tres-pasos) · [Configuración](#configuración) · [FAQ](#faq) · [简体中文](README.md) · [English](README.en.md) · [Español](README.es.md) · [Português](README.pt.md) · [हिन्दी](README.hi.md)
 
 [![License](https://img.shields.io/badge/license-Apache--2.0-3366CC?style=flat-square&labelColor=2B3245)](LICENSE)
@@ -57,7 +59,7 @@ En DSH puedes decir directamente:
 1. **Instala** (elige un canal; npm es el recomendado):
 
    ```sh
-   # npm (recomendado, 0.2.0 publicado)
+   # npm (recomendado, 0.2.1 publicado)
    dsh plugin --profile <name> add dsh-qms-capa
    # canal git (sigue main; lib/ es un artefacto de build y no está en el repo: ejecuta antes pnpm install && pnpm build en el checkout)
    dsh plugin --profile <name> add github:PerryLink/dsh-qms-capa
@@ -282,7 +284,7 @@ Verificado contra el código (`src/plugin/index.ts`, `src/plugin/tools.ts`, `src
 |---|---|
 | Harness | `dsh >=0.2.1-rc.3 <0.4.0` (`engines.dsh` de `package.json`; las dependencias de desarrollo y prueba están fijadas a la línea `0.2.1-rc.3`) |
 | Node | `>=24.9.0 <25` |
-| Nombres de herramienta | `qms_*` (guion bajo) desde 0.2.0; los nombres con punto de 0.1.x se eliminan porque el proveedor valida `tools[].name` con `^[a-zA-Z0-9_-]+$` y un punto rechaza todo el array de tools |
+| Nombres de herramienta | `qms_*` (guion bajo) desde 0.2.1; los nombres con punto de 0.1.x se eliminan porque el proveedor valida `tools[].name` con `^[a-zA-Z0-9_-]+$` y un punto rechaza todo el array de tools |
 | Servicios del host | Requiere `tools` y `storageDomain` (ver `inject` en `src/plugin/index.ts`) |
 | Plataformas | Donde corra DSH; solo archivos locales, sin mitad de navegador |
 | Modelo | No hace falta; no se llama a ningún modelo |
@@ -317,7 +319,7 @@ pnpm run gate:sku08                                      # puerta de aceptación
 pnpm run pack:check                                      # comprobación del tarball de publicación
 ```
 
-Versión actual `0.2.0`.
+Versión actual `0.2.1`.
 
 Estructura de directorios:
 

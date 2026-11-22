@@ -11,6 +11,8 @@
 
 面向 DeepSeek Harness 的本地质量事件插件：读固定表头的 CSV 台账，去重、解析批次别名、评估库存/途中影响，按 D1–D8 与 CAPA 状态推进；全程不联网、不调用模型。
 
+最近一次核验：DeepSeek Harness `dsh-v0.2.3-alpha.1`（2026-11-22）。
+
 [安装](#三步上手) · [配置](#配置) · [FAQ](#faq) · [简体中文](README.md) · [English](README.en.md) · [Español](README.es.md) · [Português](README.pt.md) · [हिन्दी](README.hi.md)
 
 [![License](https://img.shields.io/badge/license-Apache--2.0-3366CC?style=flat-square&labelColor=2B3245)](LICENSE)
@@ -57,7 +59,7 @@ dsh plugin --profile <name> add dsh-qms-capa
 1. **安装**（四选一；npm 是推荐通道）：
 
    ```sh
-   # npm（推荐，已发布 0.2.0）
+   # npm（推荐，已发布 0.2.1）
    dsh plugin --profile <name> add dsh-qms-capa
    # git 通道（跟随 main；lib/ 是构建产物、不入库，需在 checkout 内先 pnpm install && pnpm build）
    dsh plugin --profile <name> add github:PerryLink/dsh-qms-capa
@@ -282,7 +284,7 @@ R0 = 只读；R1 = 只写本机 storage 域 `qms`，从不联网。
 |---|---|
 | Harness | `dsh >=0.2.1-rc.3 <0.4.0`（`package.json` 的 `engines.dsh`；开发与测试依赖固定在 `0.2.1-rc.3` 线） |
 | Node | `>=24.9.0 <25` |
-| 工具名 | 0.2.0 起为 `qms_*`（下划线）；0.1.x 的点号名已移除——provider 对 `tools[].name` 校验 `^[a-zA-Z0-9_-]+$`，点号会让整个 tools 数组被拒 |
+| 工具名 | 0.2.1 起为 `qms_*`（下划线）；0.1.x 的点号名已移除——provider 对 `tools[].name` 校验 `^[a-zA-Z0-9_-]+$`，点号会让整个 tools 数组被拒 |
 | 宿主服务 | 需组合 `tools` 与 `storageDomain`（见 `src/plugin/index.ts` 的 `inject`） |
 | 平台 | 任何 DSH 可运行处；纯本地文件，无浏览器半 |
 | 模型 | 不需要；不调用模型 |
@@ -317,7 +319,7 @@ pnpm run gate:sku08                                      # 验收门禁（写 ev
 pnpm run pack:check                                      # 发布 tarball 内容检查
 ```
 
-当前版本 `0.2.0`。
+当前版本 `0.2.1`。
 
 目录布局：
 

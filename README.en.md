@@ -11,6 +11,8 @@
 
 A local quality-event plugin for DeepSeek Harness: it reads a fixed-header CSV ledger, dedupes rows, resolves batch aliases, evaluates stock and in-transit impact, and advances CAPA and D1–D8 state — no network, no model calls.
 
+Last verified on DeepSeek Harness `dsh-v0.2.3-alpha.1` (2026-11-22).
+
 [Install](#three-step-setup) · [Configuration](#configuration) · [FAQ](#faq) · [简体中文](README.md) · [English](README.en.md) · [Español](README.es.md) · [Português](README.pt.md) · [हिन्दी](README.hi.md)
 
 [![License](https://img.shields.io/badge/license-Apache--2.0-3366CC?style=flat-square&labelColor=2B3245)](LICENSE)
@@ -57,7 +59,7 @@ In DSH you can simply say:
 1. **Install** (pick one; npm is the recommended channel):
 
    ```sh
-   # npm (recommended, 0.2.0 is published)
+   # npm (recommended, 0.2.1 is published)
    dsh plugin --profile <name> add dsh-qms-capa
    # git channel (follows main; lib/ is a build artifact and not committed, so run pnpm install && pnpm build in the checkout first)
    dsh plugin --profile <name> add github:PerryLink/dsh-qms-capa
@@ -282,7 +284,7 @@ Checked against the source (`src/plugin/index.ts`, `src/plugin/tools.ts`, `src/p
 |---|---|
 | Harness | `dsh >=0.2.1-rc.3 <0.4.0` (`package.json` `engines.dsh`; development and test dependencies are pinned to the `0.2.1-rc.3` line) |
 | Node | `>=24.9.0 <25` |
-| Tool names | `qms_*` (underscores) since 0.2.0; the 0.1.x dotted names are removed because the provider validates `tools[].name` against `^[a-zA-Z0-9_-]+$` and one dot rejects the whole tools array |
+| Tool names | `qms_*` (underscores) since 0.2.1; the 0.1.x dotted names are removed because the provider validates `tools[].name` against `^[a-zA-Z0-9_-]+$` and one dot rejects the whole tools array |
 | Host services | Requires both `tools` and `storageDomain` (see `inject` in `src/plugin/index.ts`) |
 | Platforms | Anywhere DSH runs; local files only, no browser half |
 | Model | Not required; no model calls |
@@ -317,7 +319,7 @@ pnpm run gate:sku08                                      # acceptance gate (writ
 pnpm run pack:check                                      # publish tarball content check
 ```
 
-Current version `0.2.0`.
+Current version `0.2.1`.
 
 Directory layout:
 

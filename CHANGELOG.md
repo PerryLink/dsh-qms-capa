@@ -49,6 +49,10 @@
 
 ## [Unreleased]
 
+## [0.2.1] - 2026-11-22
+
+- Compatibility: declare DeepSeek Harness 0.2.3-alpha.1 support (>=0.2.3-0 <0.3.0-0 in engines.dsh and every @deepseek-ai/dsh-* peer range) and refresh README verification stamps.
+
 ### Added
 
 - `qms_8d_check`: read-only completeness check for an 8D record — missing or too-thin D1-D8 disciplines and a `ready_to_close` verdict, aligned with the ISO 9001:2015 10.2 corrective-action expectation. Verified by `node --test test/*.test.mjs` (9/9).
