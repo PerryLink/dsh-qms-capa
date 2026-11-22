@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "QMS NCR, CAPA & 8D",
+    "description": "Deduplicate NCR rows into a local store, find the affected batches, then open a CAPA or an 8D."
+  }
+}

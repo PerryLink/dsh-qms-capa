@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "QMS NCR、CAPA 与 8D",
+    "description": "面向 DeepSeek Harness 的本地质量事件插件：读固定表头的 CSV 台账，去重、解析批次别名、评估库存/途中影响，按 D1–D8 与 CAPA 状态推进；全程不联网、不调用模型。"
+  }
+}

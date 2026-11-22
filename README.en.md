@@ -319,7 +319,7 @@ pnpm run gate:sku08                                      # acceptance gate (writ
 pnpm run pack:check                                      # publish tarball content check
 ```
 
-Current version `0.2.1`.
+Current version `0.2.2`.
 
 Directory layout:
 
